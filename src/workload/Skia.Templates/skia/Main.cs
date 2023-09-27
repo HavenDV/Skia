@@ -1,51 +1,21 @@
-using System;
+using SkiaSharp;
 
-using Skia.NUI;
-using Skia.NUI.BaseComponents;
+// Create an image and fill it blue
+SKBitmap bmp = new(640, 480);
+using SKCanvas canvas = new(bmp);
+canvas.Clear(SKColor.Parse("#003366"));
 
-namespace SkiaApp1
+// Draw lines with random positions and thicknesses
+Random rand = new(0);
+SKPaint paint = new() { Color = SKColors.White.WithAlpha(100), IsAntialias = true };
+for (var i = 0; i < 100; i++)
 {
-    class Program : NUIApplication
-    {
-        protected override void OnCreate()
-        {
-            base.OnCreate();
-            Initialize();
-        }
-
-        void Initialize()
-        {
-            Window.Instance.KeyEvent += OnKeyEvent;
-
-            TextLabel text = new TextLabel("Hello Skia") {
-                HorizontalAlignment = HorizontalAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                TextColor = Color.Blue,
-                PointSize = 12.0f,
-                HeightResizePolicy = ResizePolicyType.FillToParent,
-                WidthResizePolicy = ResizePolicyType.FillToParent
-            };
-            Window.Instance.GetDefaultLayer().Add(text);
-
-            Animation animation = new Animation(2000);
-            animation.AnimateTo(text, "Orientation", new Rotation(new Radian(new Degree(180.0f)), PositionAxis.X), 0, 500);
-            animation.AnimateTo(text, "Orientation", new Rotation(new Radian(new Degree(0.0f)), PositionAxis.X), 500, 1000);
-            animation.Looping = true;
-            animation.Play();
-        }
-
-        public void OnKeyEvent(object sender, Window.KeyEventArgs e)
-        {
-            if (e.Key.State == Key.StateType.Down && (e.Key.KeyPressedName == "XF86Back" || e.Key.KeyPressedName == "Escape"))
-            {
-                Exit();
-            }
-        }
-
-        static void Main(string[] args)
-        {
-            var app = new Program();
-            app.Run(args);
-        }
-    }
+    SKPoint pt1 = new(rand.Next(bmp.Width), rand.Next(bmp.Height));
+    SKPoint pt2 = new(rand.Next(bmp.Width), rand.Next(bmp.Height));
+    paint.StrokeWidth = rand.Next(1, 10);
+    canvas.DrawLine(pt1, pt2, paint);
 }
+
+// Save the image to disk
+SKFileWStream fs = new("quickstart.jpg");
+bmp.Encode(fs, SKEncodedImageFormat.Jpeg, quality: 85);

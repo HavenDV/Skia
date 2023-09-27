@@ -29,15 +29,15 @@ Copyright (c) HavenDV and Samsung All rights reserved.
   </ItemGroup>
 
   <ItemGroup>
-    <FrameworkReference Update="Microsoft.NETCore.App" /> <!--  RuntimePackLabels="Skia" -->
-    <KnownRuntimePack Remove="Microsoft.NETCore.App" />
-    <KnownRuntimePack Include="Microsoft.NETCore.App"
-                      TargetFramework="net6.0"
-                      RuntimeFrameworkName="Microsoft.NETCore.App"
-                      LatestRuntimeFrameworkVersion="**FromWorkload**"
-                      RuntimePackNamePatterns="Skia.NETCore.App.Runtime.**RID**"
-                      RuntimePackRuntimeIdentifiers="skia"
-                      /><!--  RuntimePackLabels="Skia" -->
+<!--    <FrameworkReference Update="Microsoft.NETCore.App" /> &lt;!&ndash;  RuntimePackLabels="Skia" &ndash;&gt;-->
+<!--    <KnownRuntimePack Remove="Microsoft.NETCore.App" />-->
+<!--    <KnownRuntimePack Include="Microsoft.NETCore.App"-->
+<!--                      TargetFramework="net6.0"-->
+<!--                      RuntimeFrameworkName="Microsoft.NETCore.App"-->
+<!--                      LatestRuntimeFrameworkVersion="**FromWorkload**"-->
+<!--                      RuntimePackNamePatterns="Skia.NETCore.App.Runtime.**RID**"-->
+<!--                      RuntimePackRuntimeIdentifiers="skia"-->
+<!--                      />&lt;!&ndash;  RuntimePackLabels="Skia" &ndash;&gt;-->
   </ItemGroup>
 
 </Project>

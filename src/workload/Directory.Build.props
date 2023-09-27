@@ -44,7 +44,7 @@
     <PackageType>DotnetPlatform</PackageType>
     <GenerateDependencyFile>false</GenerateDependencyFile>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <PackageOutputPath>$(MSBuildThisFileDirectory)../../out/nuget-unsigned</PackageOutputPath>
+    <PackageOutputPath>$(MSBuildThisFileDirectory)../../out/nuget-unsigned/</PackageOutputPath>
     <!-- Remove the `<group targetFramework=".NETStandard2.0" />` entry from the .nuspec. -->
     <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
     <!-- Ignore TargetFramework reference group related warnings, these are workload packs not functional NuGets. -->

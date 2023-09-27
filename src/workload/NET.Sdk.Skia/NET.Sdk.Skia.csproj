@@ -34,7 +34,7 @@ workload manifest pack containing information about the Skia .NET workload.
   
   <Target Name="_GenerateWorkloadContent">
     <PropertyGroup>
-      <WorkloadManifestJsonPath>$(OutputPath)workload-manifest\WorkloadManifest.json</WorkloadManifestJsonPath>
+      <WorkloadManifestJsonPath>$(PackageOutputPath)workload-manifest\WorkloadManifest.json</WorkloadManifestJsonPath>
     </PropertyGroup>
 
     <MakeDir Directories="$([System.IO.Path]::GetDirectoryName ($(WorkloadManifestJsonPath)))" />

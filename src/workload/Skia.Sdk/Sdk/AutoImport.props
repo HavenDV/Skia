@@ -17,19 +17,19 @@ https://github.com/dotnet/designs/blob/4703666296f5e59964961464c25807c727282cae/
 
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <PropertyGroup>
-    <SkiaManifestFile Condition="'$(SkiaManifestFile)' == ''">skia-manifest.xml</SkiaManifestFile>
-    <SkiaResourcePrefix Condition="'$(SkiaResourcePrefix)' == ''">res</SkiaResourcePrefix>
-    <SkiaSharedPrefix Condition="'$(SkiaSharedPrefix)' == ''">shared</SkiaSharedPrefix>
-  </PropertyGroup>
+<!--  <PropertyGroup>-->
+<!--    <SkiaManifestFile Condition="'$(SkiaManifestFile)' == ''">skia-manifest.xml</SkiaManifestFile>-->
+<!--    <SkiaResourcePrefix Condition="'$(SkiaResourcePrefix)' == ''">res</SkiaResourcePrefix>-->
+<!--    <SkiaSharedPrefix Condition="'$(SkiaSharedPrefix)' == ''">shared</SkiaSharedPrefix>-->
+<!--  </PropertyGroup>-->
 
-  <ItemGroup>
-    <SkiaLibrary Include="lib\**\*" Exclude="@(SkiaTpkUserExcludeFiles)" />
-  </ItemGroup>
+<!--  <ItemGroup>-->
+<!--    <SkiaLibrary Include="lib\**\*" Exclude="@(SkiaTpkUserExcludeFiles)" />-->
+<!--  </ItemGroup>-->
 
-  <ItemGroup Condition="'$(EnableDefaultSkiaItems)' == 'true'">
-    <SkiaResource Include="$(SkiaResourcePrefix)\**\*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);@(SkiaTpkUserExcludeFiles)" />
-    <SkiaSharedResource Include="$(SkiaSharedPrefix)\**\*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);@(SkiaTpkUserExcludeFiles)" />
-  </ItemGroup>
+<!--  <ItemGroup Condition="'$(EnableDefaultSkiaItems)' == 'true'">-->
+<!--    <SkiaResource Include="$(SkiaResourcePrefix)\**\*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);@(SkiaTpkUserExcludeFiles)" />-->
+<!--    <SkiaSharedResource Include="$(SkiaSharedPrefix)\**\*" Exclude="$(DefaultItemExcludes);$(DefaultExcludesInProjectFolder);@(SkiaTpkUserExcludeFiles)" />-->
+<!--  </ItemGroup>-->
 
 </Project>
