@@ -38,28 +38,28 @@ Copyright (c) HavenDV and Samsung All rights reserved.
 <!--        Condition="!Exists('$(SdbToolPath)$(SdbToolExe)')" />-->
 <!--  </Target>-->
 
-  <PropertyGroup Condition=" '$(RuntimeIdentifiers)' != '' ">
-    <BuildDependsOn>
-        _BuildWithSingleRID
-    </BuildDependsOn>
-  </PropertyGroup>
+<!--  <PropertyGroup Condition=" '$(RuntimeIdentifiers)' != '' ">-->
+<!--    <BuildDependsOn>-->
+<!--        _BuildWithSingleRID-->
+<!--    </BuildDependsOn>-->
+<!--  </PropertyGroup>-->
 
-  <PropertyGroup Condition=" '$(RuntimeIdentifiers)' == '' ">
-    <BuildDependsOn>
-        $(BuildDependsOn);
-        SkiaPackage;
-    </BuildDependsOn>
-  </PropertyGroup>
+<!--  <PropertyGroup Condition=" '$(RuntimeIdentifiers)' == '' ">-->
+<!--    <BuildDependsOn>-->
+<!--        $(BuildDependsOn);-->
+<!--        SkiaPackage;-->
+<!--    </BuildDependsOn>-->
+<!--  </PropertyGroup>-->
 
-  <Target Name="_BuildWithSingleRID">
-    <ItemGroup>
-      <_RuntimeIdentifiersAsItems Include="$(RuntimeIdentifiers)" Condition=" '$(RuntimeIdentifiers)' != '' " />
-    </ItemGroup>
-    <MSBuild
-      Projects="$(MSBuildProjectFile)"
-      Targets="Build"
-      Properties="RuntimeIdentifier=%(_RuntimeIdentifiersAsItems.Identity);RuntimeIdentifiers=">
-    </MSBuild>
-  </Target>
+<!--  <Target Name="_BuildWithSingleRID">-->
+<!--    <ItemGroup>-->
+<!--      <_RuntimeIdentifiersAsItems Include="$(RuntimeIdentifiers)" Condition=" '$(RuntimeIdentifiers)' != '' " />-->
+<!--    </ItemGroup>-->
+<!--    <MSBuild-->
+<!--      Projects="$(MSBuildProjectFile)"-->
+<!--      Targets="Build"-->
+<!--      Properties="RuntimeIdentifier=%(_RuntimeIdentifiersAsItems.Identity);RuntimeIdentifiers=">-->
+<!--    </MSBuild>-->
+<!--  </Target>-->
 
 </Project>
