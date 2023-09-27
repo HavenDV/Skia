@@ -1,0 +1,27 @@
+<!--
+***********************************************************************************************
+Skia.Sdk.csproj
+
+This project file is used to create the Skia.Sdk NuGet, which is the
+core workload sdk pack imported by the NET.Sdk.Skia.
+***********************************************************************************************
+-->
+<Project Sdk="Microsoft.Build.NoTargets/3.7.0">
+
+  <PropertyGroup>
+    <Description>The MSBuild targets for buliding Skia .NET projects</Description>
+    <PackageTags>skia;sdk</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Skia.Build.Tasks\Skia.Build.Tasks.csproj" PrivateAssets="all" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Sdk/*" Pack="true" PackagePath="Sdk" />
+    <None Include="tools/*" Pack="true" PackagePath="tools" />
+    <None Include="targets/*" Pack="true" PackagePath="targets" />
+    <None Include="$(MSBuildThisFileDirectory)../Skia.Build.Tasks/bin/$(Configuration)/netstandard2.0/Skia.Build.Tasks.dll" Pack="true" PackagePath="tools" LinkBase="tools" />
+  </ItemGroup>
+
+</Project>

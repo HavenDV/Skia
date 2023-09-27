@@ -1,28 +1,21 @@
 <!--
 ***********************************************************************************************
-Skia.NETCore.App.Runtime.proj
+Skia.NETCore.App.Runtime.csproj
 
 This project file is used to create the Skia.NETCore.App.Runtime.**RID** NuGet.
 ***********************************************************************************************
 -->
-<Project Sdk="Microsoft.Build.NoTargets">
+<Project Sdk="Microsoft.Build.NoTargets/3.7.0">
 
   <PropertyGroup>
     <PackageId>Skia.NETCore.App.Runtime.skia</PackageId>
     <Description>Internal implementation package not meant for direct consumption. Please do not reference directly.</Description>
+    <PackageTags>skia;sdk;runtime</PackageTags>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <BeforePack>
-      _GetRuntimeContents;
-      $(BeforePack);
-    </BeforePack>
-  </PropertyGroup>
-
-  <Target Name="_GetRuntimeContents" DependsOnTargets="_GetPackageVersion;_GetLicense">
-    <ItemGroup>
-      <_PackageFiles Include="$(_ProjectSourceDirectory)Skia.NETCore.App.Runtime\**" PackagePath="/" />
-    </ItemGroup>
-  </Target>
+  <ItemGroup>
+    <None Include="data/**" Pack="true" PackagePath="data" />
+    <None Include="lib/**" Pack="true" PackagePath="lib" />
+  </ItemGroup>
 
 </Project>

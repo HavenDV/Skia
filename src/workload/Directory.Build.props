@@ -1,0 +1,68 @@
+<Project>
+
+  <!--
+    Workload version:
+    * The first two numbers represent the major and minor version of the Skia OS.
+    * The third number is the workload release count.
+    * However, the first digit of the third number starts at 101.
+
+    Pre-release version:
+    1) CI Versions
+       format: -ci.[branch name | gh + #PR].[Commit Distance]+sha[Commit Hash]
+       example: -ci.main.100+sha12345
+                -ci.gh23.100+sha12345
+    2) Official Versions:
+       format: -[preview name].[Commit Distance]+sha[Commit Hash]
+       example: -preview.3.100+sha12345
+  -->
+  <PropertyGroup>
+    <SkiaWorkloadVersion>7.0.119</SkiaWorkloadVersion>
+  </PropertyGroup>
+
+  <!-- 
+    SkiaFX API version:
+    * The first number represents the API Level.
+    * The sencond and third numbers represents the reserved version.
+    * The fourth number represents the build number.
+    This version is used to generate Skia.Ref package.
+  -->
+  <PropertyGroup>
+    <SkiaVersion>2.88.6</SkiaVersion>
+  </PropertyGroup>
+
+  <!--
+    Dotnet SDK versions for building the workload.
+   -->
+  <PropertyGroup>
+    <MicrosoftDotnetSdkInternalPackageVersion>6.0.408</MicrosoftDotnetSdkInternalPackageVersion>
+    <MicrosoftDotNetBuildTasksFeedPackageVersion>6.0.0-beta.21212.6</MicrosoftDotNetBuildTasksFeedPackageVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Configuration>Release</Configuration>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageType>DotnetPlatform</PackageType>
+    <GenerateDependencyFile>false</GenerateDependencyFile>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <!-- Remove the `<group targetFramework=".NETStandard2.0" />` entry from the .nuspec. -->
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+    <!-- Ignore TargetFramework reference group related warnings, these are workload packs not functional NuGets. -->
+    <NoWarn>$(NoWarn);NU5128;NU5131</NoWarn>
+  </PropertyGroup>
+  
+  <PropertyGroup Label="Nuget">
+    <Version>0.1.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <Authors>HavenDV</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>nuget_icon.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup Label="Nuget">
+    <None Include="$(MSBuildThisFileDirectory)../../assets/nuget_icon.png" Pack="true" PackagePath="\" Visible="false" />
+    <None Include="$(MSBuildThisFileDirectory)../../README.md" Pack="true" PackagePath="\" Visible="false" />
+  </ItemGroup>
+
+</Project>

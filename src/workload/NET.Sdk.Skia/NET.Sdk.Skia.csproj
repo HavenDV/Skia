@@ -1,12 +1,12 @@
 <!--
 ***********************************************************************************************
-NET.Sdk.Skia.proj
+NET.Sdk.Skia.csproj
 
 This project file is used to create the NET.Sdk.Skia NuGet, which is the
 workload manifest pack containing information about the Skia .NET workload.
 ***********************************************************************************************
 -->
-<Project Sdk="Microsoft.Build.NoTargets">
+<Project Sdk="Microsoft.Build.NoTargets/3.7.0">
 
   <PropertyGroup>
     <!-- Trim all characters after first `-` or `+` is encountered. -->
@@ -16,7 +16,12 @@ workload manifest pack containing information about the Skia .NET workload.
   <PropertyGroup>
     <PackageId>NET.Sdk.Skia.Manifest-$(DotNetPreviewVersionBand)</PackageId>
     <Description>Skia .NET workload manifest. Please do not reference directly.</Description>
+    <PackageTags>skia;sdk;manifest</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="WorkloadManifest.targets" Pack="true" PackagePath="data" />
+  </ItemGroup>
 
   <PropertyGroup>
     <BeforePack>
@@ -25,20 +30,21 @@ workload manifest pack containing information about the Skia .NET workload.
     </BeforePack>
   </PropertyGroup>
 
-  <Target Name="_GenerateWorkloadContent" DependsOnTargets="_GetPackageVersion;_GetLicense">
+  <Import Project="$(MSBuildThisFileDirectory)..\Skia.Build.PrepTasks\PrepTasks.targets" />
+  
+  <Target Name="_GenerateWorkloadContent">
     <PropertyGroup>
       <WorkloadManifestJsonPath>$(OutputPath)workload-manifest\WorkloadManifest.json</WorkloadManifestJsonPath>
     </PropertyGroup>
 
     <MakeDir Directories="$([System.IO.Path]::GetDirectoryName ($(WorkloadManifestJsonPath)))" />
     <ReplaceFileContents
-        SourceFile="$(_ProjectSourceDirectory)NET.Sdk.Skia\WorkloadManifest.in.json"
+        SourceFile="WorkloadManifest.in.json"
         DestinationFile="$(WorkloadManifestJsonPath)"
-        Replacements="@SKIA_WORKLOAD_VERSION@=$(SkiaPackVersion);">
+        Replacements="@SKIA_WORKLOAD_VERSION@=$(Version);">
     </ReplaceFileContents>
 
     <ItemGroup>
-      <_PackageFiles Include="$(_ProjectSourceDirectory)NET.Sdk.Skia\WorkloadManifest.targets" PackagePath="data" />
       <_PackageFiles Include="$(WorkloadManifestJsonPath)" PackagePath="data" />
     </ItemGroup>
   </Target>

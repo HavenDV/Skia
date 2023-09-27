@@ -4,44 +4,42 @@ Skia.Ref.proj
 
 This project file is used to create the Skia.Ref NuGet, which is the
 targeting pack containing reference assemblies and other compile time assets required
-by projects that use the Skia .NET framework in .NET 5.
+by projects that use the Skia .NET framework in .NET 6.
 ***********************************************************************************************
 -->
-<Project Sdk="Microsoft.Build.NoTargets">
+<Project Sdk="Microsoft.Build.NoTargets/3.7.0">
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.DotNet.Arcade.Sdk" Version="6.0.0-beta.21212.6" PrivateAssets="all" GeneratePathProperty="true" />
+  </ItemGroup>
+
+  <Import Project="Sdk.props" Sdk="Microsoft.DotNet.SharedFramework.Sdk" Version="6.0.0-beta.21212.6" />
 
   <PropertyGroup>
-    <SkiaFXAPILevel>$(SkiaFXVersion.Split(".")[0])</SkiaFXAPILevel>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageId>Skia.Ref</PackageId>
     <Description>
       Skia .NET reference assemblies. Please do not reference directly.
-      - SkiaFX API Level : $(SkiaFXAPILevel)
-      - SkiaFX Version : $(SkiaFXVersion)
+      - Skia Version : $(SkiaVersion)
     </Description>
+    <PackageTags>skia;sdk;ref</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup>
-    <SkiaFXPackageName>Skia.NET.API$(SkiaFXAPILevel)</SkiaFXPackageName>
-    <SkiaFXNuGetPathVariable>PkgSkia_NET_API$(SkiaFXAPILevel)</SkiaFXNuGetPathVariable>
+    <SkiaFXNuGetPathVariable>PkgSkiaSharp</SkiaFXNuGetPathVariable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="$(SkiaFXPackageName)" Version="$(SkiaFXVersion)" GeneratePathProperty="true" />
+    <PackageReference Include="SkiaSharp" Version="$(SkiaVersion)" GeneratePathProperty="true" />
   </ItemGroup>
 
   <PropertyGroup>
     <BeforePack>
-      _GetPackageVersion;
       _GetTargetingPackItems;
       _GenerateFrameworkListFile;
       $(BeforePack);
     </BeforePack>
   </PropertyGroup>
 
-  <Target Name="_GetTargetingPackItems"
-      DependsOnTargets="_GetLicense">
+  <Target Name="_GetTargetingPackItems">
     <PropertyGroup>
       <FrameworkListFile>$(IntermediateOutputPath)FrameworkList.xml</FrameworkListFile>
     </PropertyGroup>
@@ -54,8 +52,8 @@ by projects that use the Skia .NET framework in .NET 5.
 
     <ItemGroup>
       <_PackageFiles Include="@(_SkiaRefPackAssemblies)" PackagePath="ref\net6.0" TargetPath="ref\net6.0" />
-      <_PackageFiles Include="$(_ProjectSourceDirectory)Skia.Ref/data/*.txt" PackagePath="data" />
-      <_PackageFiles Include="$(_ProjectSourceDirectory)Skia.Ref/runtime.json" PackagePath=".\" />
+      <_PackageFiles Include="data/*.txt" PackagePath="data" />
+      <_PackageFiles Include="runtime.json" PackagePath=".\" />
     </ItemGroup>
 
   </Target>
