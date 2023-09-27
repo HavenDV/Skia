@@ -1,0 +1,39 @@
+<Project>
+  <!--
+    Workload version:
+    * The first two numbers represent the major and minor version of the Skia OS.
+    * The third number is the workload release count.
+    * However, the first digit of the third number starts at 101.
+
+    Pre-release version:
+    1) CI Versions
+       format: -ci.[branch name | gh + #PR].[Commit Distance]+sha[Commit Hash]
+       example: -ci.main.100+sha12345
+                -ci.gh23.100+sha12345
+    2) Official Versions:
+       format: -[preview name].[Commit Distance]+sha[Commit Hash]
+       example: -preview.3.100+sha12345
+  -->
+  <PropertyGroup>
+    <SkiaWorkloadVersion>7.0.119</SkiaWorkloadVersion>
+  </PropertyGroup>
+
+  <!-- 
+    SkiaFX API version:
+    * The first number represents the API Level.
+    * The sencond and third numbers represents the reserved version.
+    * The fourth number represents the build number.
+    This version is used to generate Skia.Ref package.
+  -->
+  <PropertyGroup>
+    <SkiaFXVersion>10.0.0.17508</SkiaFXVersion>
+  </PropertyGroup>
+
+  <!--
+    Dotnet SDK versions for building the workload.
+   -->
+  <PropertyGroup>
+    <MicrosoftDotnetSdkInternalPackageVersion>6.0.408</MicrosoftDotnetSdkInternalPackageVersion>
+    <MicrosoftDotNetBuildTasksFeedPackageVersion>6.0.0-beta.21212.6</MicrosoftDotNetBuildTasksFeedPackageVersion>
+  </PropertyGroup>
+</Project>

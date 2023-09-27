@@ -1,0 +1,9 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <TargetFramework>net6.0-skia</TargetFramework>
+    <RootNamespace Condition="'$(name)' != '$(name{-VALUE-FORMS-}safe_namespace)'">SkiaApp1</RootNamespace>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  
+</Project>

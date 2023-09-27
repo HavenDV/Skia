@@ -1,0 +1,147 @@
+{
+  "runtimes": {
+    "skia": {
+      "#import": [
+        "linux"
+      ]
+    },
+    "skia-armel": {
+      "#import": [
+        "skia",
+        "linux-armel"
+      ]
+    },
+    "skia-x86": {
+      "#import": [
+        "skia",
+        "linux-x86"
+      ]
+    },
+    "skia-arm64": {
+      "#import": [
+        "skia",
+        "linux-arm64"
+      ]
+    },
+    "skia.4.0.0": {
+      "#import": [
+        "skia"
+      ]
+    },
+    "skia.4.0.0-armel": {
+      "#import": [
+        "skia.4.0.0",
+        "skia-armel"
+      ]
+    },
+    "skia.4.0.0-x86": {
+      "#import": [
+        "skia.4.0.0",
+        "skia-x86"
+      ]
+    },
+    "skia.5.0.0": {
+      "#import": [
+        "skia.4.0.0"
+      ]
+    },
+    "skia.5.0.0-armel": {
+      "#import": [
+        "skia.5.0.0",
+        "skia.4.0.0-armel"
+      ]
+    },
+    "skia.5.0.0-x86": {
+      "#import": [
+        "skia.5.0.0",
+        "skia.4.0.0-x86"
+      ]
+    },
+    "skia.5.5.0": {
+      "#import": [
+        "skia.5.0.0"
+      ]
+    },
+    "skia.5.5.0-armel": {
+      "#import": [
+        "skia.5.5.0",
+        "skia.5.0.0-armel"
+      ]
+    },
+    "skia.5.5.0-x86": {
+      "#import": [
+        "skia.5.5.0",
+        "skia.5.0.0-x86"
+      ]
+    },
+    "skia.6.0.0": {
+      "#import": [
+        "skia.5.5.0"
+      ]
+    },
+    "skia.6.0.0-armel": {
+      "#import": [
+        "skia.6.0.0",
+        "skia.5.5.0-armel"
+      ]
+    },
+    "skia.6.0.0-x86": {
+      "#import": [
+        "skia.6.0.0",
+        "skia.5.5.0-x86"
+      ]
+    },
+    "skia.6.0.0-arm64": {
+      "#import": [
+        "skia.6.0.0",
+        "skia-arm64"
+      ]
+    },
+    "skia.6.5.0": {
+      "#import": [
+        "skia.6.0.0"
+      ]
+    },
+    "skia.6.5.0-armel": {
+      "#import": [
+        "skia.6.5.0",
+        "skia.6.0.0-armel"
+      ]
+    },
+    "skia.6.5.0-x86": {
+      "#import": [
+        "skia.6.5.0",
+        "skia.6.0.0-x86"
+      ]
+    },
+    "skia.6.5.0-arm64": {
+      "#import": [
+        "skia.6.5.0",
+        "skia.6.0.0-arm64"
+      ]
+    },
+    "skia.7.0.0": {
+      "#import": [
+        "skia.6.5.0"
+      ]
+    },
+    "skia.7.0.0-armel": {
+      "#import": [
+        "skia.7.0.0",
+        "skia.6.5.0-armel"
+      ]
+    },
+    "skia.7.0.0-x86": {
+      "#import": [
+        "skia.7.0.0",
+        "skia.6.5.0-x86"
+      ]
+    },
+    "skia.7.0.0-arm64": {
+      "#import": [
+        "skia.7.0.0",
+        "skia.6.5.0-arm64"
+      ]
+    }
+  }
+}

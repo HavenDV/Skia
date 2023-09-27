@@ -1,0 +1,32 @@
+{
+  "version": "@SKIA_WORKLOAD_VERSION@",
+  "workloads": {
+    "skia": {
+      "description": ".NET SDK Workload for building Skia applications.",
+      "packs": [
+        "Skia.Sdk",
+        "Skia.Ref",
+        "Skia.Templates",
+        "Skia.NETCore.App.Runtime.skia"
+      ]
+    }
+  },
+  "packs": {
+    "Skia.Sdk": {
+      "kind": "sdk",
+      "version": "@SKIA_WORKLOAD_VERSION@"
+    },
+    "Skia.Ref": {
+      "kind": "framework",
+      "version": "@SKIA_WORKLOAD_VERSION@"
+    },
+    "Skia.Templates": {
+      "kind": "template",
+      "version": "@SKIA_WORKLOAD_VERSION@"
+    },
+    "Skia.NETCore.App.Runtime.skia": {
+      "kind": "framework",
+      "version": "@SKIA_WORKLOAD_VERSION@"
+    }
+  }
+}

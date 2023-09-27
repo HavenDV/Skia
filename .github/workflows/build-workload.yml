@@ -1,0 +1,70 @@
+name: Build Workload
+
+on:
+  push:
+    branches:
+    - main
+    paths:
+    - 'workload/**'
+    - '.github/workflows/**'
+  pull_request:
+    branches: [ main ]
+    paths:
+    - 'workload/**'
+    - '.github/workflows/**'
+  workflow_dispatch:
+    inputs:
+      prerelease:
+        description: 'Pre-release tag name'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Build
+      env:
+        PULLREQUEST_ID: ${{ github.event.number }}
+        PRERELEASE_TAG: ${{ github.event.inputs.prerelease }}
+      run: make test
+      working-directory: ./workload
+
+    - uses: actions/upload-artifact@v2
+      with:
+        name: skia-workload-pkgs
+        path: ./workload/out/nuget-unsigned/*.nupkg
+
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+
+    - name: Install Github Package Registry Tool
+      run: dotnet tool install --global --no-cache gpr
+
+    - uses: actions/download-artifact@v2
+      with:
+        name: skia-workload-pkgs
+
+    - name: Push packages to GPR
+      run: |
+        gpr push --api-key ${{ secrets.GITHUB_TOKEN }} \
+                 --repository ${{ github.repository }} \
+                 --retries 3 *.nupkg
+
+    - name: Push packages to MyGet
+      run: |
+        dotnet nuget push *.nupkg \
+                      -k ${{ secrets.MYGET_APIKEY }} \
+                      -s https://skia.myget.org/F/dotnet/api/v2/package \
+                      -t 3000

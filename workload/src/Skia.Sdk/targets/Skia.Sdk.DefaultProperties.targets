@@ -1,0 +1,31 @@
+<!--
+***********************************************************************************************
+Skia.Sdk.DefaultProperties.targets
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright (c) HavenDV and Samsung All rights reserved.
+***********************************************************************************************
+-->
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <SkiaApplication Condition=" '$(SkiaApplication)' == '' And '$(OutputType)' == 'Exe' ">true</SkiaApplication>
+    <SkiaApplication Condition=" '$(SkiaApplication)' == '' ">false</SkiaApplication>
+    <EnableImplicitRuntimeIdentifiers Condition=" '$(EnableImplicitRuntimeIdentifiers)' == '' And '$(UseMaui)' == 'true' ">true</EnableImplicitRuntimeIdentifiers>
+    <EnableImplicitRuntimeIdentifiers Condition=" '$(EnableImplicitRuntimeIdentifiers)' == '' ">false</EnableImplicitRuntimeIdentifiers>
+    <!-- Set the default RuntimeIdentifier if not already specified. -->
+    <RuntimeIdentifier Condition=" '$(EnableImplicitRuntimeIdentifiers)' == 'true' And '$(RuntimeIdentifier)' == '' And '$(RuntimeIdentifiers)' == '' ">skia-x86</RuntimeIdentifier>
+    <UseAppHost>false</UseAppHost>
+    <_RuntimeIdentifierUsesAppHost>false</_RuntimeIdentifierUsesAppHost>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <_IsSkiaDefined>$([System.Text.RegularExpressions.Regex]::IsMatch('$(DefineConstants.Trim())', '(^|;)__SKIA__($|;)'))</_IsSkiaDefined>
+    <DefineConstants Condition="!$(_IsSkiaDefined)">__SKIA__;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+
+</Project>

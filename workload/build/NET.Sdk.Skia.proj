@@ -1,0 +1,46 @@
+<!--
+***********************************************************************************************
+NET.Sdk.Skia.proj
+
+This project file is used to create the NET.Sdk.Skia NuGet, which is the
+workload manifest pack containing information about the Skia .NET workload.
+***********************************************************************************************
+-->
+<Project Sdk="Microsoft.Build.NoTargets">
+
+  <PropertyGroup>
+    <!-- Trim all characters after first `-` or `+` is encountered. -->
+    <DotNetPreviewVersionBand Condition=" '$(DotNetPreviewVersionBand)' == '' ">$([System.Text.RegularExpressions.Regex]::Replace($(MicrosoftDotnetSdkInternalPackageVersion), `[-+].*$`, ""))</DotNetPreviewVersionBand>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>NET.Sdk.Skia.Manifest-$(DotNetPreviewVersionBand)</PackageId>
+    <Description>Skia .NET workload manifest. Please do not reference directly.</Description>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <BeforePack>
+      _GenerateWorkloadContent;
+      $(BeforePack);
+    </BeforePack>
+  </PropertyGroup>
+
+  <Target Name="_GenerateWorkloadContent" DependsOnTargets="_GetPackageVersion;_GetLicense">
+    <PropertyGroup>
+      <WorkloadManifestJsonPath>$(OutputPath)workload-manifest\WorkloadManifest.json</WorkloadManifestJsonPath>
+    </PropertyGroup>
+
+    <MakeDir Directories="$([System.IO.Path]::GetDirectoryName ($(WorkloadManifestJsonPath)))" />
+    <ReplaceFileContents
+        SourceFile="$(_ProjectSourceDirectory)NET.Sdk.Skia\WorkloadManifest.in.json"
+        DestinationFile="$(WorkloadManifestJsonPath)"
+        Replacements="@SKIA_WORKLOAD_VERSION@=$(SkiaPackVersion);">
+    </ReplaceFileContents>
+
+    <ItemGroup>
+      <_PackageFiles Include="$(_ProjectSourceDirectory)NET.Sdk.Skia\WorkloadManifest.targets" PackagePath="data" />
+      <_PackageFiles Include="$(WorkloadManifestJsonPath)" PackagePath="data" />
+    </ItemGroup>
+  </Target>
+
+</Project>

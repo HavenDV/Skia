@@ -1,0 +1,28 @@
+<!--
+***********************************************************************************************
+Skia.Sdk.VisualStudio.targets
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright (c) HavenDV and Samsung All rights reserved.
+***********************************************************************************************
+-->
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+<!--  <PropertyGroup>-->
+<!--    <SkiaProjectExtensionsPath>$(MSBuildExtensionsPath)\Skia\VisualStudio\</SkiaProjectExtensionsPath>-->
+<!--  </PropertyGroup>-->
+
+  <!-- Import Capability & Rules on Visual Studio -->
+<!--  <Import Project="$(SkiaProjectExtensionsPath)Skia.NET.ProjectType.targets" Condition="Exists('$(SkiaProjectExtensionsPath)Skia.NET.ProjectType.targets') and '$(BuildingInsideVisualStudio)' =='true' and '$(SkiaCreateTpkOnBuild)' == 'true'" />-->
+
+  <!-- Install Check 'Visual Studio for Skia' for developing on Visual Studio -->
+<!--  <Target Name="SkiaVsixInstallCheck" BeforeTargets="CompileDesignTime" Condition="'$(BuildingInsideVisualStudio)' =='true'" >-->
+<!--    <Warning Condition="!Exists('$(SkiaProjectExtensionsPath)Skia.NET.ProjectType.props')" Text="$(SkiaProjectExtensionsPath)Skia.NET.ProjectType.props is not exist.&#xA; you need to check if 'Visual Studio for Skia' is installed" />-->
+<!--    <Warning Condition="!Exists('$(SkiaProjectExtensionsPath)Skia.NET.ProjectType.targets')" Text="$(SkiaProjectExtensionsPath)Skia.NET.ProjectType.targets is not exist.\&#xA; you need to check if 'Visual Studio for Skia' is installed" />-->
+<!--  </Target>-->
+
+</Project>

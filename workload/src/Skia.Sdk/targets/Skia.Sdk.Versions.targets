@@ -1,0 +1,61 @@
+<!--
+***********************************************************************************************
+Skia.Sdk.Versions.targets
+
+WARNING:  DO NOT MODIFY this file unless you are knowledgeable about MSBuild and have
+          created a backup copy.  Incorrect changes to this file will make it
+          impossible to load or build your projects from the command-line or the IDE.
+
+Copyright (c) HavenDV and Samsung All rights reserved.
+***********************************************************************************************
+-->
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <PropertyGroup>
+    <_DefaultTargetPlatformVersion>7.0</_DefaultTargetPlatformVersion>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetPlatformSupported>true</TargetPlatformSupported>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">$(_DefaultTargetPlatformVersion)</TargetPlatformVersion>
+    <_TargetFramework Condition="$(TargetFramework.EndsWith('skia'))">$(TargetFramework)$(_DefaultTargetPlatformVersion)</_TargetFramework>
+    <_TargetFramework Condition="!$(TargetFramework.EndsWith('skia'))">$(TargetFramework)</_TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="skia" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SupportedAPILevel Include="v4.0" MappedAPIVersion="4.0"/>
+    <SupportedAPILevel Include="v5.0" MappedAPIVersion="5.0"/>
+    <SupportedAPILevel Include="v6.0" MappedAPIVersion="5.0"/>
+    <SupportedAPILevel Include="v7.0" MappedAPIVersion="5.5"/>
+    <SupportedAPILevel Include="v8.0" MappedAPIVersion="6.0"/>
+    <SupportedAPILevel Include="v9.0" MappedAPIVersion="6.5"/>
+    <SupportedAPILevel Include="v10.0" MappedAPIVersion="7.0"/>
+    <SupportedAPILevel Include="v11.0" MappedAPIVersion="8.0"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <SkiaSdkSupportedTargetPlatformVersion Include="6.5" />
+    <SkiaSdkSupportedTargetPlatformVersion Include="7.0" />
+    <SkiaSdkSupportedTargetPlatformVersion Include="8.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <SdkSupportedTargetPlatformVersion Include="@(SkiaSdkSupportedTargetPlatformVersion)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <KnownFrameworkReference
+      Include="Skia"
+      TargetFramework="$(_TargetFramework)"
+      TargetingPackName="Skia.Ref"
+      TargetingPackVersion="**FromWorkload**"
+      Profile="Skia"
+    />
+  </ItemGroup>
+
+</Project>
