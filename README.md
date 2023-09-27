@@ -96,3 +96,17 @@ dotnet build HelloSkiaNet6/HelloSkiaNet6.csproj -f net6.0-skia -t:Run
 ```
 
 > ℹ️ You need to use Skia emulator 7.0 or higher version to run .NET 6 based app.
+
+## Developers
+You can test project using these commands(tested on macOS):
+```
+sudo dotnet build /t:TestWorkload
+sudo dotnet build /t:WorkloadUninstall
+
+other possible targets(it already included in targets above):
+DownloadDotnetInstall
+DotnetInstall
+WorkloadInstall
+BuildPackages
+CleanArtifactsAndTemporaryFiles
+```
