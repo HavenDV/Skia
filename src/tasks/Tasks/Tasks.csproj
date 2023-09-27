@@ -23,6 +23,17 @@
     <DotnetManifestsDestDir>$(DotnetDestDir)sdk-manifests/$(DotnetVersion)/net.sdk.skia/</DotnetManifestsDestDir>
   </PropertyGroup>
 
+  <Target Name="BuildPackages">
+    <ItemGroup>
+      <ProjectReferences Include="$(WorkloadDir)*/*.csproj" />
+    </ItemGroup>
+    
+    <MSBuild Projects="@(ProjectReferences)" Targets="Build">
+      <Output TaskParameter="TargetOutputs"
+              ItemName="AssembliesBuiltByChildProjects" />
+    </MSBuild>
+  </Target>
+  
   <Target Name="DownloadDotnetInstall">
     <DownloadFile
             SourceUrl="$(DotnetInstallUrl)"

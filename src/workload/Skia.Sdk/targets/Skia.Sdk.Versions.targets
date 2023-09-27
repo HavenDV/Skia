@@ -42,6 +42,7 @@ Copyright (c) HavenDV and Samsung All rights reserved.
     <SkiaSdkSupportedTargetPlatformVersion Include="6.5" />
     <SkiaSdkSupportedTargetPlatformVersion Include="7.0" />
     <SkiaSdkSupportedTargetPlatformVersion Include="8.0" />
+    <SkiaSdkSupportedTargetPlatformVersion Include="2.88.6" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,7 +56,7 @@ Copyright (c) HavenDV and Samsung All rights reserved.
       TargetingPackName="Skia.Ref"
       TargetingPackVersion="**FromWorkload**"
       Profile="Skia"
-    />
+      />
   </ItemGroup>
 
 </Project>
