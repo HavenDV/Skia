@@ -12,6 +12,6 @@ jobs:
       generate-build-number: false
       conventional-commits-publish-conditions: false
       enable-caching: false
-      additional-command: sudo dotnet build src/tasks/Tasks /t:TestWorkload
+      additional-command: sudo dotnet build src/tasks/Tasks /t:TestWorkload /p:DotnetDestDir=/usr/share/dotnet/
     secrets:
       nuget-key: ${{ secrets.NUGET_KEY }}
