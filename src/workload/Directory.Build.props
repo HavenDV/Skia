@@ -47,6 +47,7 @@
     <PackageOutputPath>$(MSBuildThisFileDirectory)../../out/nuget-unsigned/</PackageOutputPath>
     <!-- Remove the `<group targetFramework=".NETStandard2.0" />` entry from the .nuspec. -->
     <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+    <IncludeSymbols>false</IncludeSymbols>
     <!-- Ignore TargetFramework reference group related warnings, these are workload packs not functional NuGets. -->
     <NoWarn>$(NoWarn);NU5128;NU5131</NoWarn>
   </PropertyGroup>
