@@ -7,7 +7,7 @@
   <PropertyGroup Label="Parameters">
     <DotnetVersion>7.0.400</DotnetVersion>
     <DotnetInstallUrl>https://dotnet.microsoft.com/download/dotnet/scripts/v1/dotnet-install.sh</DotnetInstallUrl>
-    <UseCurrentDotnet>false</UseCurrentDotnet>
+    <UseCurrentDotnet>true</UseCurrentDotnet>
   </PropertyGroup>
 
   <PropertyGroup Label="Paths">
@@ -34,7 +34,7 @@
     </MSBuild>
   </Target>
   
-  <Target Name="DownloadDotnetInstall">
+  <Target Name="DownloadDotnetInstall" Condition="'$(UseCurrentDotnet)' != 'true'">
     <DownloadFile
             SourceUrl="$(DotnetInstallUrl)"
             DestinationFolder="$(TmpDir)">
@@ -42,11 +42,11 @@
     </DownloadFile>
   </Target>
 
-  <Target Name="DotnetInstall" DependsOnTargets="DownloadDotnetInstall;BuildPackages">
+  <Target Name="DotnetInstall" DependsOnTargets="DownloadDotnetInstall;BuildPackages" Condition="'$(UseCurrentDotnet)' != 'true'">
     <Exec Command="sh $(TmpDir)dotnet-install.sh --version $(DotnetVersion) --install-dir $(DotnetDestDir)" ConsoleToMSBuild="true"/>
   </Target>
 
-  <Target Name="WorkloadInstall" DependsOnTargets="DotnetInstall">
+  <Target Name="WorkloadInstall" DependsOnTargets="DotnetInstall;BuildPackages">
     <ItemGroup>
       <_SourceFiles Include="$(WorkloadDir)Skia.Sdk.Manifest/WorkloadManifest.targets"/>
       <_SourceFiles Include="$(WorkloadPacksOutDir)workload-manifest/WorkloadManifest.json"/>
