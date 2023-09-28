@@ -42,13 +42,13 @@
     </DownloadFile>
   </Target>
 
-  <Target Name="DotnetInstall" DependsOnTargets="DownloadDotnetInstall">
+  <Target Name="DotnetInstall" DependsOnTargets="DownloadDotnetInstall;BuildPackages">
     <Exec Command="sh $(TmpDir)dotnet-install.sh --version $(DotnetVersion) --install-dir $(DotnetDestDir)" ConsoleToMSBuild="true"/>
   </Target>
 
-  <Target Name="WorkloadInstall" DependsOnTargets="DotnetInstall;BuildPackages">
+  <Target Name="WorkloadInstall" DependsOnTargets="DotnetInstall">
     <ItemGroup>
-      <_SourceFiles Include="$(WorkloadDir)NET.Sdk.Skia/WorkloadManifest.targets"/>
+      <_SourceFiles Include="$(WorkloadDir)Skia.Sdk.Manifest/WorkloadManifest.targets"/>
       <_SourceFiles Include="$(WorkloadPacksOutDir)workload-manifest/WorkloadManifest.json"/>
     </ItemGroup>
     
