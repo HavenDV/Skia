@@ -8,7 +8,6 @@ This project file is used to create the Skia.NETCore.App.Runtime.**RID** NuGet.
 <Project Sdk="Microsoft.Build.NoTargets/3.7.0">
 
   <PropertyGroup>
-    <PackageId>Skia.NETCore.App.Runtime.skia</PackageId>
     <Description>Internal implementation package not meant for direct consumption. Please do not reference directly.</Description>
     <PackageTags>skia;sdk;runtime</PackageTags>
   </PropertyGroup>
