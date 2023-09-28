@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "HavenDV",
+  "classifications": [ "Skia" ],
+  "identity": "Skia.SkiaApp",
+  "name": "Skia .NET Application",
+  "description": "A project for creating an Skia .NET application",
+  "shortName": "skia",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "SkiaApp1",
+  "preferNameDirectory": true,
+  "primaryOutputs": [
+    { "path": "SkiaApp1.csproj" }
+  ],
+  "symbols": {
+    "packageName": {
+      "type": "parameter",
+      "description": "Overrides the package name in the skia-manifest.xml",
+      "datatype": "string",
+      "replaces": "com.companyname.SkiaApp1"
+    }
+  },
+  "defaultName": "SkiaApp1"
+}
