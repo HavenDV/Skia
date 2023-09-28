@@ -5,37 +5,14 @@
 
 #!/bin/bash -e
 
-MANIFEST_BASE_NAME="net.sdk.skia.manifest"
+MANIFEST_BASE_NAME="skia.sdk.manifest"
 MANIFEST_VERSION="<latest>"
+MANIFEST_LATEST_VERSION="0.1.0"
 DOTNET_INSTALL_DIR="<auto>"
 DOTNET_TARGET_VERSION_BAND="<auto>"
 DOTNET_DEFAULT_PATH_LINUX="/usr/share/dotnet"
 DOTNET_DEFAULT_PATH_MACOS="/usr/local/share/dotnet"
 UPDATE_ALL_WORKLOADS="false"
-
-LatestVersionMap=(
-    "$MANIFEST_BASE_NAME-6.0.100=7.0.101"
-    "$MANIFEST_BASE_NAME-6.0.200=7.0.100-preview.13.6"
-    "$MANIFEST_BASE_NAME-6.0.300=7.0.304"
-    "$MANIFEST_BASE_NAME-6.0.400=7.0.119"
-    "$MANIFEST_BASE_NAME-7.0.100-preview.6=7.0.100-preview.6.14"
-    "$MANIFEST_BASE_NAME-7.0.100-preview.7=7.0.100-preview.7.20"
-    "$MANIFEST_BASE_NAME-7.0.100-rc.1=7.0.100-rc.1.22"
-    "$MANIFEST_BASE_NAME-7.0.100-rc.2=7.0.100-rc.2.24"
-    "$MANIFEST_BASE_NAME-7.0.100=7.0.103"
-    "$MANIFEST_BASE_NAME-7.0.200=7.0.105"
-    "$MANIFEST_BASE_NAME-7.0.300=7.0.120"
-    "$MANIFEST_BASE_NAME-7.0.400=7.0.123"
-    "$MANIFEST_BASE_NAME-8.0.100-alpha.1=7.0.104"
-    "$MANIFEST_BASE_NAME-8.0.100-preview.2=7.0.106"
-    "$MANIFEST_BASE_NAME-8.0.100-preview.3=7.0.107"
-    "$MANIFEST_BASE_NAME-8.0.100-preview.4=7.0.108"
-    "$MANIFEST_BASE_NAME-8.0.100-preview.5=7.0.110"
-    "$MANIFEST_BASE_NAME-8.0.100-preview.6=7.0.121"
-    "$MANIFEST_BASE_NAME-8.0.100-preview.7=7.0.122"
-    "$MANIFEST_BASE_NAME-8.0.100-rc.1=7.0.124"
-    "$MANIFEST_BASE_NAME-8.0.100-rc.2=7.0.125"
-    )
 
 while [ $# -ne 0 ]; do
     name=$1
@@ -118,14 +95,6 @@ if [ ! -d $DOTNET_INSTALL_DIR ]; then
     exit 1
 fi
 
-function getLatestVersion () {
-    for index in "${LatestVersionMap[@]}"; do
-         if [ "${index%%=*}" = "${1}" ]; then
-             echo "${index#*=}"
-         fi
-    done
-}
-
 # Check installed dotnet version
 DOTNET_COMMAND="$DOTNET_INSTALL_DIR/dotnet"
 
@@ -139,7 +108,7 @@ function install_skiaworkload() {
     IFS='.' read -r -a array <<< "$DOTNET_VERSION"
     CURRENT_DOTNET_VERSION=${array[0]}
     DOTNET_VERSION_BAND="${array[0]}.${array[1]}.${array[2]:0:1}00"
-    MANIFEST_NAME="$MANIFEST_BASE_NAME-$DOTNET_VERSION_BAND"
+    MANIFEST_NAME="$MANIFEST_BASE_NAME"
 
     # Reset local variables
     if [[ "$UPDATE_ALL_WORKLOADS" == "true" ]]; then
@@ -152,7 +121,7 @@ function install_skiaworkload() {
         if [[ "$CURRENT_DOTNET_VERSION" -ge "7" ]]; then
             if [[ "$DOTNET_VERSION" == *"-preview"* || $DOTNET_VERSION == *"-rc"* || $DOTNET_VERSION == *"-alpha"* ]] && [[ ${#array[@]} -ge 4 ]]; then
                 DOTNET_TARGET_VERSION_BAND="$DOTNET_VERSION_BAND${array[2]:3}.${array[3]}"
-                MANIFEST_NAME="$MANIFEST_BASE_NAME-$DOTNET_TARGET_VERSION_BAND"
+                MANIFEST_NAME="$MANIFEST_BASE_NAME"
             else
                 DOTNET_TARGET_VERSION_BAND=$DOTNET_VERSION_BAND
             fi
@@ -163,7 +132,7 @@ function install_skiaworkload() {
 
     # Check latest version of manifest.
     if [[ "$MANIFEST_VERSION" == "<latest>" ]]; then
-        MANIFEST_VERSION=$(getLatestVersion "$MANIFEST_NAME")
+        MANIFEST_VERSION=$MANIFEST_LATEST_VERSION
         if [ ! "$MANIFEST_VERSION" ]; then
             MANIFEST_VERSION=$(curl -s https://api.nuget.org/v3-flatcontainer/$MANIFEST_NAME/index.json | grep \" | tail -n 1 | tr -d '\r' | xargs)
             if [[ -n $MANIFEST_VERSION ]]; then

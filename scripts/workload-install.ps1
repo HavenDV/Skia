@@ -26,31 +26,7 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 $ProgressPreference = "SilentlyContinue"
 
-$ManifestBaseName = "NET.Sdk.Skia.Manifest"
-
-$LatestVersionMap = @{
-    "$ManifestBaseName-6.0.100" = "7.0.101";
-    "$ManifestBaseName-6.0.200" = "7.0.100-preview.13.6";
-    "$ManifestBaseName-6.0.300" = "7.0.304";
-    "$ManifestBaseName-6.0.400" = "7.0.119";
-    "$ManifestBaseName-7.0.100-preview.6" = "7.0.100-preview.6.14";
-    "$ManifestBaseName-7.0.100-preview.7" = "7.0.100-preview.7.20";
-    "$ManifestBaseName-7.0.100-rc.1" = "7.0.100-rc.1.22";
-    "$ManifestBaseName-7.0.100-rc.2" = "7.0.100-rc.2.24";
-    "$ManifestBaseName-7.0.100" = "7.0.103";
-    "$ManifestBaseName-7.0.200" = "7.0.105";
-    "$ManifestBaseName-7.0.300" = "7.0.120";
-    "$ManifestBaseName-7.0.400" = "7.0.123";
-    "$ManifestBaseName-8.0.100-alpha.1" = "7.0.104";
-    "$ManifestBaseName-8.0.100-preview.2" = "7.0.106";
-    "$ManifestBaseName-8.0.100-preview.3" = "7.0.107";
-    "$ManifestBaseName-8.0.100-preview.4" = "7.0.108";
-    "$ManifestBaseName-8.0.100-preview.5" = "7.0.110";
-    "$ManifestBaseName-8.0.100-preview.6" = "7.0.121";
-    "$ManifestBaseName-8.0.100-preview.7" = "7.0.122";
-    "$ManifestBaseName-8.0.100-rc.1" = "7.0.124";
-    "$ManifestBaseName-8.0.100-rc.2" = "7.0.125";
-}
+$ManifestBaseName = "Skia.Sdk.Manifest"
 
 function New-TemporaryDirectory {
     $parent = [System.IO.Path]::GetTempPath()
@@ -70,31 +46,25 @@ function Ensure-Directory([string]$TestDir) {
 }
 
 function Get-LatestVersion([string]$Id) {
-    if ($LatestVersionMap.ContainsKey($Id))
+    $attempts=3
+    $sleepInSeconds=3
+    do
     {
-        Write-Host "Return cached latest version."
-        return $LatestVersionMap.$Id
-    } else {
-        $attempts=3
-        $sleepInSeconds=3
-        do
+        try
         {
-            try
-            {
-                $Response = Invoke-WebRequest -Uri https://api.nuget.org/v3-flatcontainer/$Id/index.json -UseBasicParsing | ConvertFrom-Json
-                return $Response.versions | Select-Object -Last 1
-            }
-            catch {
-                Write-Host "Id: $Id"
-                Write-Host "An exception was caught: $($_.Exception.Message)"
-            }
+            $Response = Invoke-WebRequest -Uri https://api.nuget.org/v3-flatcontainer/$Id/index.json -UseBasicParsing | ConvertFrom-Json
+            return $Response.versions | Select-Object -Last 1
+        }
+        catch {
+            Write-Host "Id: $Id"
+            Write-Host "An exception was caught: $($_.Exception.Message)"
+        }
 
-            $attempts--
-            if ($attempts -gt 0) { Start-Sleep $sleepInSeconds }
-        } while ($attempts -gt 0)
+        $attempts--
+        if ($attempts -gt 0) { Start-Sleep $sleepInSeconds }
+    } while ($attempts -gt 0)
 
-        Write-Error "Wrong Id: $Id"
-    }
+    Write-Error "Wrong Id: $Id"
 }
 
 function Get-Package([string]$Id, [string]$Version, [string]$Destination, [string]$FileExt = "nupkg") {
@@ -152,7 +122,7 @@ function Install-SkiaWorkload([string]$DotnetVersion)
 
     $CurrentDotnetVersion = [Version]"$($SplitVersion[0]).$($SplitVersion[1])"
     $DotnetVersionBand = $SplitVersion[0] + $VersionSplitSymbol + $SplitVersion[1] + $VersionSplitSymbol + $SplitVersion[2][0] + "00"
-    $ManifestName = "$ManifestBaseName-$DotnetVersionBand"
+    $ManifestName = "$ManifestBaseName"
 
     if ($DotnetTargetVersionBand -eq "<auto>" -or $UpdateAllWorkloads.IsPresent) {
         if ($CurrentDotnetVersion -ge "7.0")
@@ -160,7 +130,7 @@ function Install-SkiaWorkload([string]$DotnetVersion)
             $IsPreviewVersion = $DotnetVersion.Contains("-preview") -or $DotnetVersion.Contains("-rc") -or $DotnetVersion.Contains("-alpha")
             if ($IsPreviewVersion -and ($SplitVersion.Count -ge 4)) {
                 $DotnetTargetVersionBand = $DotnetVersionBand + $SplitVersion[2].SubString(3) + $VersionSplitSymbol + $($SplitVersion[3])
-                $ManifestName = "$ManifestBaseName-$DotnetTargetVersionBand"
+                $ManifestName = "$ManifestBaseName"
             }
             else {
                 $DotnetTargetVersionBand = $DotnetVersionBand
