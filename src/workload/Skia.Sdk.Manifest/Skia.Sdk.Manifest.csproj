@@ -9,17 +9,12 @@ workload manifest pack containing information about the Skia .NET workload.
 <Project Sdk="Microsoft.Build.NoTargets/3.7.0">
 
   <PropertyGroup>
-    <!-- Trim all characters after first `-` or `+` is encountered. -->
-    <DotNetPreviewVersionBand Condition=" '$(DotNetPreviewVersionBand)' == '' ">$([System.Text.RegularExpressions.Regex]::Replace($(MicrosoftDotnetSdkInternalPackageVersion), `[-+].*$`, ""))</DotNetPreviewVersionBand>
-  </PropertyGroup>
-
-  <PropertyGroup>
-    <PackageId>NET.Sdk.Skia.Manifest-$(DotNetPreviewVersionBand)</PackageId>
     <Description>Skia .NET workload manifest. Please do not reference directly.</Description>
     <PackageTags>skia;sdk;manifest</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="*.cs" />
     <None Include="WorkloadManifest.targets" Pack="true" PackagePath="data" />
   </ItemGroup>
 
@@ -30,7 +25,17 @@ workload manifest pack containing information about the Skia .NET workload.
     </BeforePack>
   </PropertyGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)..\Skia.Build.PrepTasks\PrepTasks.targets" />
+  <UsingTask TaskName="ReplaceFileContents" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <SourceFile ParameterType="Microsoft.Build.Framework.ITaskItem" Required="true" />
+      <DestinationFile ParameterType="Microsoft.Build.Framework.ITaskItem" Required="true" />
+      <Replacements ParameterType="System.String[]" />
+      <ReplacementFilePath ParameterType="System.String" />
+    </ParameterGroup>
+    <Task>
+      <Code Type="Class" Language="cs" Source="$(MSBuildThisFileDirectory)ReplaceFileContents.cs"/>
+    </Task>
+  </UsingTask>
   
   <Target Name="_GenerateWorkloadContent">
     <PropertyGroup>
