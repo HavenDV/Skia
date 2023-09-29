@@ -31,13 +31,28 @@ jobs:
           "8.0.100-preview.7",
           "8.0.100-rc.1",
           "8.0.100-rc.2"]
-    name: Build, test and publish
+    name: Test ${{ matrix.os }} with dotnet ${{ matrix.dotnet-version }}
     uses: HavenDV/workflows/.github/workflows/dotnet_build-test-publish.yml@main
     with:
       os: ${{ matrix.os }}
       generate-build-number: false
       conventional-commits-publish-conditions: false
       enable-caching: false
-      additional-command: sudo dotnet build src/tasks/Tasks /t:TestWorkload p/DotnetVersion=${{ matrix.dotnet-version }} /p:UseCurrentDotnet=false
+      additional-command: sudo dotnet build
+        src/tasks/Tasks
+        /t:TestWorkload
+        /p:DotnetVersion=${{ matrix.dotnet-version }}
+        /p:UseCurrentDotnet=false
+      
+  build-test-publish:
+    name: Build, test and publish
+    uses: HavenDV/workflows/.github/workflows/dotnet_build-test-publish.yml@main
+    with:
+      generate-build-number: false
+      conventional-commits-publish-conditions: false
+      enable-caching: false
+      additional-command: sudo dotnet build
+        src/tasks/Tasks
+        /t:TestWorkload
     secrets:
       nuget-key: ${{ secrets.NUGET_KEY }}
