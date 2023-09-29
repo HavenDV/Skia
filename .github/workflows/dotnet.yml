@@ -5,7 +5,7 @@ on:
       - main
 
 jobs:
-  build-test-publish:
+  build-test:
     strategy:
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
