@@ -10,7 +10,7 @@ Copyright (c) HavenDV and Samsung All rights reserved.
 ***********************************************************************************************
 -->
 
-<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project>
 
   <PropertyGroup>
     <_DefaultTargetPlatformVersion>7.0</_DefaultTargetPlatformVersion>
@@ -49,14 +49,14 @@ Copyright (c) HavenDV and Samsung All rights reserved.
     <SdkSupportedTargetPlatformVersion Include="@(SkiaSdkSupportedTargetPlatformVersion)" />
   </ItemGroup>
 
-  <ItemGroup>
-    <KnownFrameworkReference
-      Include="Skia"
-      TargetFramework="$(_TargetFramework)"
-      TargetingPackName="Skia.Ref"
-      TargetingPackVersion="**FromWorkload**"
-      Profile="Skia"
-      />
-  </ItemGroup>
+<!--  <ItemGroup>-->
+<!--    <KnownFrameworkReference-->
+<!--      Include="Skia"-->
+<!--      TargetFramework="$(_TargetFramework)"-->
+<!--      TargetingPackName="Skia.Ref"-->
+<!--      TargetingPackVersion="**FromWorkload**"-->
+<!--      Profile="Skia"-->
+<!--      />-->
+<!--  </ItemGroup>-->
 
 </Project>
