@@ -6,9 +6,6 @@ on:
 
 jobs:
   build-test:
-    concurrency:
-      group: '${{ github.job }}'
-      
     strategy:
       matrix:
         os: [macos-latest, windows-latest, ubuntu-latest]
