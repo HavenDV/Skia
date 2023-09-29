@@ -18,8 +18,8 @@
     <WorkloadDir>$(SolutionDir)src/workload/</WorkloadDir>
     <WorkloadPacksOutDir>$(OutDir)nuget-unsigned/</WorkloadPacksOutDir>
     <DotnetDestDir>$(OutDir)dotnet/</DotnetDestDir>
-    <DotnetDefaultPathLinux>/usr/share/dotnet</DotnetDefaultPathLinux>
-    <DotnetDefaultPathMacOS>/usr/local/share/dotnet</DotnetDefaultPathMacOS>
+    <DotnetDefaultPathLinux>/usr/share/dotnet/</DotnetDefaultPathLinux>
+    <DotnetDefaultPathMacOS>/usr/local/share/dotnet/</DotnetDefaultPathMacOS>
     <DotnetDestDir Condition="'$(UseCurrentDotnet)' == 'true' and $([MSBuild]::IsOSPlatform('Linux'))">$(DotnetDefaultPathLinux)</DotnetDestDir>
     <DotnetDestDir Condition="'$(UseCurrentDotnet)' == 'true' and $([MSBuild]::IsOSPlatform('macOS'))">$(DotnetDefaultPathMacOS)</DotnetDestDir>
     <DotnetExe>$(DotnetDestDir)dotnet</DotnetExe>
