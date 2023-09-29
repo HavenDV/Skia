@@ -5,10 +5,10 @@ on:
       - main
 
 jobs:
-  build-test:
+  build-test-non-windows:
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
+        os: [macos-latest, ubuntu-latest]
         dotnet-version: [
 #          "6.0.100",
 #          "6.0.200",
@@ -36,6 +36,45 @@ jobs:
     uses: HavenDV/workflows/.github/workflows/dotnet_build-test-publish.yml@main
     with:
       os: ${{ matrix.os }}
+      generate-build-number: false
+      conventional-commits-publish-conditions: false
+      enable-caching: false
+      additional-command: sudo dotnet build
+        src/tasks/Tasks
+        /t:TestWorkload
+        /p:DotnetVersion=${{ matrix.dotnet-version }}
+        /p:UseCurrentDotnet=false
+      
+  build-test-windows:
+    strategy:
+      matrix:
+        dotnet-version: [
+          "6.0.100",
+          "6.0.200",
+          "6.0.300",
+          "6.0.400",
+          "7.0.100-preview.6",
+          "7.0.100-preview.7",
+          "7.0.100-rc.1",
+          "7.0.100-rc.2",
+          "7.0.100",
+          "7.0.200",
+          "7.0.300",
+          "7.0.400",
+          "8.0.100-alpha.1",
+          "8.0.100-preview.2",
+          "8.0.100-preview.3",
+          "8.0.100-preview.4",
+          "8.0.100-preview.5",
+          "8.0.100-preview.6",
+          "8.0.100-preview.7",
+          "8.0.100-rc.1",
+          "8.0.100-rc.2"
+        ]
+    name: windows-latest/${{ matrix.dotnet-version }}
+    uses: HavenDV/workflows/.github/workflows/dotnet_build-test-publish.yml@main
+    with:
+      os: windows-latest
       generate-build-number: false
       conventional-commits-publish-conditions: false
       enable-caching: false
