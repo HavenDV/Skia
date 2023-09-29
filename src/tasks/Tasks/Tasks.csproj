@@ -49,7 +49,8 @@
   <Target Name="DotnetInstall" DependsOnTargets="DownloadDotnetInstall;BuildPackages" Condition="'$(UseCurrentDotnet)' != 'true'">
     <PropertyGroup Label="Parameters">
       <DotnetInstallCommand Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(TmpDir)dotnet-install.ps1 -Version $(DotnetVersion) -InstallDir $(DotnetDestDir)</DotnetInstallCommand>
-      <DotnetInstallCommand Condition="$([MSBuild]::IsOSPlatform('Linux')) or $([MSBuild]::IsOSPlatform('macOS'))">sh $(TmpDir)dotnet-install.sh --version $(DotnetVersion) --install-dir $(DotnetDestDir)</DotnetInstallCommand>
+      <DotnetInstallCommand Condition="$([MSBuild]::IsOSPlatform('Linux'))">$(TmpDir)dotnet-install.sh --version $(DotnetVersion) --install-dir $(DotnetDestDir)</DotnetInstallCommand>
+      <DotnetInstallCommand Condition="$([MSBuild]::IsOSPlatform('macOS'))">sh $(TmpDir)dotnet-install.sh --version $(DotnetVersion) --install-dir $(DotnetDestDir)</DotnetInstallCommand>
     </PropertyGroup>
     
     <Exec Command="$(DotnetInstallCommand)" ConsoleToMSBuild="true"/>
