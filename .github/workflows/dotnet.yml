@@ -35,12 +35,11 @@ jobs:
     name: ${{ matrix.os }}/${{ matrix.dotnet-version }}
     runs-on: ${{ matrix.os }}
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
-          
-      - name: Test workload
-        run: sudo dotnet build
+      - run: sudo dotnet build
           src/tasks/Tasks
           /t:TestWorkload
       
@@ -73,12 +72,11 @@ jobs:
     name: windows-latest/${{ matrix.dotnet-version }}
     runs-on: windows-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
-
-      - name: Test workload
-        run: dotnet build
+      - run: dotnet build
           src/tasks/Tasks
           /t:TestWorkload
       
