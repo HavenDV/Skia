@@ -26,6 +26,10 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
           dotnet-quality: ${{ matrix.dotnet-quality }}
+
+      - name: "Setup MSBuild"
+        if: matrix.os == 'windows'
+        uses: microsoft/setup-msbuild@v1.1
           
       - name: "Build local packages"
         if: matrix.source == 'local'
@@ -53,10 +57,6 @@ jobs:
         
       - name: "Build new project using dotnet"
         run: dotnet build test
-
-      - name: "Setup MSBuild"
-        if: matrix.os == 'windows'
-        uses: microsoft/setup-msbuild@v1.1
         
       - name: "Create new project from template to test MSBuild"
         if: matrix.os == 'windows'
