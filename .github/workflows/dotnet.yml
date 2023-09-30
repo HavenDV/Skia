@@ -39,6 +39,7 @@ jobs:
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+      - run: dotnet build
       - run: sudo dotnet build
           src/tasks/Tasks
           /t:TestWorkload
@@ -76,6 +77,7 @@ jobs:
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+      - run: dotnet build
       - run: dotnet build
           src/tasks/Tasks
           /t:TestWorkload
