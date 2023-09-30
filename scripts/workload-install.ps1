@@ -150,8 +150,10 @@ function Install-SkiaWorkload([string]$DotnetVersion, [string]$Source)
     }
 
     # Check latest version of manifest.
-    if ($Version -eq "<latest>" -or $UpdateAllWorkloads.IsPresent) {
-        $Version = Get-LatestVersion -Id $ManifestName
+    if ($Source -eq "<auto>") {
+        if ($Version -eq "<latest>" -or $UpdateAllWorkloads.IsPresent) {
+            $Version = Get-LatestVersion -Id $ManifestName
+        }
     }
 
     # Check workload manifest directory.
