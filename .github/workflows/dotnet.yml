@@ -58,6 +58,32 @@ jobs:
         run: ./workload-install.ps1
       - run: dotnet new skia --output test
       - run: dotnet build test
+  
+  build-test-msbuild:
+    strategy:
+      matrix:
+        vs-prerelease: [true, false]
+        source: [nuget, local]
+    name: msbuild/preview-${{ matrix.vs-prerelease }}/${{ matrix.source }}
+    runs-on: windows-latest
+    steps:
+      - if: matrix.source == 'local'
+        uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - uses: microsoft/setup-msbuild@v1.1
+        with:
+          vs-prerelease: ${{ matrix.vs-prerelease }}
+      - if: matrix.source == 'local'
+        run: dotnet build
+      - run: Invoke-WebRequest 'https://raw.githubusercontent.com/HavenDV/Skia/main/scripts/workload-install.ps1' -OutFile 'workload-install.ps1'
+      - if: matrix.source == 'local'
+        run: ./workload-install.ps1 -s out/nuget-unsigned
+      - if: matrix.source == 'nuget'
+        run: ./workload-install.ps1
+      - run: dotnet new skia --output test
+      - run: msbuild test
       
   build-test-publish:
     name: Build, test and publish
