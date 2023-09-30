@@ -5,7 +5,7 @@
 
 #!/bin/bash -e
 
-MANIFEST_BASE_NAME="Skia.Sdk.Manifest"
+MANIFEST_NAME="Skia.Sdk.Manifest"
 MANIFEST_VERSION="<latest>"
 SOURCE="<auto>"
 DOTNET_INSTALL_DIR="<auto>"
@@ -113,7 +113,6 @@ function install_skiaworkload() {
     IFS='.' read -r -a array <<< "$DOTNET_VERSION"
     CURRENT_DOTNET_VERSION=${array[0]}
     DOTNET_VERSION_BAND="${array[0]}.${array[1]}.${array[2]:0:1}00"
-    MANIFEST_NAME="$MANIFEST_BASE_NAME"
 
     # Reset local variables
     if [[ "$UPDATE_ALL_WORKLOADS" == "true" ]]; then
@@ -126,7 +125,6 @@ function install_skiaworkload() {
         if [[ "$CURRENT_DOTNET_VERSION" -ge "7" ]]; then
             if [[ "$DOTNET_VERSION" == *"-preview"* || $DOTNET_VERSION == *"-rc"* || $DOTNET_VERSION == *"-alpha"* ]] && [[ ${#array[@]} -ge 4 ]]; then
                 DOTNET_TARGET_VERSION_BAND="$DOTNET_VERSION_BAND${array[2]:3}.${array[3]}"
-                MANIFEST_NAME="$MANIFEST_BASE_NAME"
             else
                 DOTNET_TARGET_VERSION_BAND=$DOTNET_VERSION_BAND
             fi
