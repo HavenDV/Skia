@@ -85,14 +85,16 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - run: dotnet build
-      - run: mkdir -p $env:DOTNET_ROOT/sdk-manifests/${{ matrix.dotnet-version }}/skia.sdk.manifest
-      - run: cp
-          src/workload/Skia.Sdk.Manifest/WorkloadManifest.targets
-          $env:DOTNET_ROOT/sdk-manifests/${{ matrix.dotnet-version }}/skia.sdk.manifest/WorkloadManifest.targets
-      - run: cp
-          out/nuget-unsigned/workload-manifest/WorkloadManifest.json
-          $env:DOTNET_ROOT/sdk-manifests/${{ matrix.dotnet-version }}/skia.sdk.manifest/WorkloadManifest.json
-      - run: dotnet workload install skia --skip-manifest-update --source out/nuget-unsigned
+#      - run: mkdir -p $env:DOTNET_ROOT/sdk-manifests/${{ matrix.dotnet-version }}/skia.sdk.manifest
+#      - run: cp
+#          src/workload/Skia.Sdk.Manifest/WorkloadManifest.targets
+#          $env:DOTNET_ROOT/sdk-manifests/${{ matrix.dotnet-version }}/skia.sdk.manifest/WorkloadManifest.targets
+#      - run: cp
+#          out/nuget-unsigned/workload-manifest/WorkloadManifest.json
+#          $env:DOTNET_ROOT/sdk-manifests/${{ matrix.dotnet-version }}/skia.sdk.manifest/WorkloadManifest.json
+#      - run: dotnet workload install skia --skip-manifest-update --source out/nuget-unsigned
+      - run: Invoke-WebRequest 'https://raw.githubusercontent.com/HavenDV/Skia/main/workload/scripts/workload-install.ps1' -OutFile 'workload-install.ps1'
+      - run: ./workload-install.ps1 -s out/nuget-unsigned
       - run: dotnet new skia --output test
       - run: dotnet build test
       

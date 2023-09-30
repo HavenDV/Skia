@@ -19,6 +19,7 @@ param(
     [Alias('v')][string]$Version="<latest>",
     [Alias('d')][string]$DotnetInstallDir="<auto>",
     [Alias('t')][string]$DotnetTargetVersionBand="<auto>",
+    [Alias('s')][string]$Source="<auto>",
     [Alias('u')][switch]$UpdateAllWorkloads
 )
 
@@ -124,6 +125,14 @@ function Install-SkiaWorkload([string]$DotnetVersion)
     $DotnetVersionBand = $SplitVersion[0] + $VersionSplitSymbol + $SplitVersion[1] + $VersionSplitSymbol + $SplitVersion[2][0] + "00"
     $ManifestName = "$ManifestBaseName"
 
+    if ($Source -eq "<auto>") {
+        $SourceName = "NuGet"
+    }
+    else {
+        Register-PackageSource -Name Local -Location $Source -ProviderName NuGet
+        $SourceName = "Local"
+    }
+    
     if ($DotnetTargetVersionBand -eq "<auto>" -or $UpdateAllWorkloads.IsPresent) {
         if ($CurrentDotnetVersion -ge "7.0")
         {
@@ -178,7 +187,7 @@ function Install-SkiaWorkload([string]$DotnetVersion)
 
     # Install workload manifest.
     Write-Host "Installing $ManifestName/$Version to $ManifestDir..."
-    Install-Pack -Id $ManifestName -Version $Version -Kind "manifest"
+    Install-Pack -Id $ManifestName -Version $Version -Kind "manifest" -Source $SourceName
 
     # Download and install workload packs.
     $NewManifestJson = $(Get-Content $SkiaManifestFile | ConvertFrom-Json)
