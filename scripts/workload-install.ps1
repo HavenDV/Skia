@@ -64,8 +64,8 @@ function Get-LatestVersion([string]$Id) {
         $attempts--
         if ($attempts -gt 0) { Start-Sleep $sleepInSeconds }
     } while ($attempts -gt 0)
-
-    Write-Error "Wrong Id: $Id"
+    
+    return "0.1.0"
 }
 
 function Get-Package([string]$Id, [string]$Version, [string]$Destination, [string]$Source = "", [string]$FileExt = "nupkg") {
@@ -150,13 +150,8 @@ function Install-SkiaWorkload([string]$DotnetVersion, [string]$Source)
     }
 
     # Check latest version of manifest.
-    if ($Source -eq "<auto>") {
-        if ($Version -eq "<latest>" -or $UpdateAllWorkloads.IsPresent) {
-            $Version = Get-LatestVersion -Id $ManifestName
-        }
-    }
-    else {
-        $Version = "0.1.0"
+    if ($Version -eq "<latest>" -or $UpdateAllWorkloads.IsPresent) {
+        $Version = Get-LatestVersion -Id $ManifestName
     }
 
     # Check workload manifest directory.
