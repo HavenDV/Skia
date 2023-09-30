@@ -5,15 +5,15 @@ on:
       - main
 
 jobs:
-  build-test-non-windows:
+  build-test:
     strategy:
       matrix:
         os: [macos, ubuntu, windows]
-        dotnet-version: [6.0.x] #, 7.0.x, 8.0.x
-        dotnet-quality: [ga] #preview, 
-        source: [local] #nuget, 
+        dotnet-version: [6.0.x, 7.0.x, 8.0.x]
+        dotnet-quality: [preview, ga]
+        source: [nuget, local]
         
-    name: ${{ matrix.os }}/${{ matrix.dotnet-version }}-${{ matrix.dotnet-quality }}/${{ matrix.source }}/${{ matrix.build }}
+    name: ${{ matrix.os }}/${{ matrix.dotnet-version }}/${{ matrix.dotnet-quality }}/${{ matrix.source }}
     runs-on: ${{ matrix.os }}-latest
     steps:
       - name: "Checkout"
@@ -42,10 +42,10 @@ jobs:
         
       - name: "Install workload from local packages on Linux/macOS"
         if: matrix.source == 'local' && matrix.os != 'windows'
-        run: curl -sSL https://raw.githubusercontent.com/HavenDV/Skia/main/scripts/workload-install.sh | bash -s -- -s out/nuget-unsigned
+        run: curl -sSL https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ github.repository }}/main/scripts/workload-install.sh | bash -s -- -s out/nuget-unsigned
       - name: "Install workload from NuGet on Linux/macOS"
         if: matrix.source == 'nuget' && matrix.os != 'windows'
-        run: curl -sSL https://raw.githubusercontent.com/HavenDV/Skia/main/scripts/workload-install.sh | sudo bash
+        run: curl -sSL https://raw.githubusercontent.com/${{ github.repository_owner }}/${{ github.repository }}/main/scripts/workload-install.sh | sudo bash
         
       - name: "Create new project from skia template"
         run: dotnet new skia --output test
