@@ -12,10 +12,7 @@ jobs:
         dotnet-version: [6.0.x] #, 7.0.x, 8.0.x
         dotnet-quality: [ga] #preview, 
         source: [local] #nuget, 
-        build: ["dotnet build"]
-        include:
-          - os: windows
-            build: "msbuild /restore"
+        
     name: ${{ matrix.os }}/${{ matrix.dotnet-version }}-${{ matrix.dotnet-quality }}/${{ matrix.source }}/${{ matrix.build }}
     runs-on: ${{ matrix.os }}-latest
     steps:
@@ -28,10 +25,6 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
           dotnet-quality: ${{ matrix.dotnet-quality }}
-          
-      - name: "Setup MSBuild"
-        if: startsWith(matrix.build, 'msbuild')
-        uses: microsoft/setup-msbuild@v1.1
           
       - name: "Build local packages"
         if: matrix.source == 'local'
@@ -56,8 +49,21 @@ jobs:
         
       - name: "Create new project from skia template"
         run: dotnet new skia --output test
-      - name: "Build new project using ${{ matrix.build }}"
-        run: ${{ matrix.build }} test
+        
+      - name: "Build new project using dotnet"
+        run: dotnet build test
+
+      - name: "Setup MSBuild"
+        if: matrix.os == 'windows'
+        uses: microsoft/setup-msbuild@v1.1
+        
+      - name: "Create new project from skia template to test MSBuild"
+        if: matrix.os == 'windows'
+        run: dotnet new skia --output test-msbuild
+        
+      - name: "Build new project using MSBuild"
+        if: matrix.os == 'windows'
+        run: msbuild /restore test-msbuild
       
   build-test-publish:
     name: Build, test and publish
