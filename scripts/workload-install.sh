@@ -163,10 +163,10 @@ function install_skiaworkload() {
     chmod 744 $TMPDIR/unzipped/data/*
 
     # Copy manifest files to dotnet sdk.
-    mkdir -p $SDK_MANIFESTS_DIR/net.sdk.skia
-    cp -f $TMPDIR/unzipped/data/* $SDK_MANIFESTS_DIR/net.sdk.skia/
+    mkdir -p $SDK_MANIFESTS_DIR/skia.sdk.manifest
+    cp -f $TMPDIR/unzipped/data/* $SDK_MANIFESTS_DIR/skia.sdk.manifest/
 
-    if [ ! -f $SDK_MANIFESTS_DIR/net.sdk.skia/WorkloadManifest.json ]; then
+    if [ ! -f $SDK_MANIFESTS_DIR/skia.sdk.manifest/WorkloadManifest.json ]; then
         echo "Installation is failed."
         return
     fi

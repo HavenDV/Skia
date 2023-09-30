@@ -25,7 +25,7 @@
     <DotnetDestDir Condition="'$(UseCurrentDotnet)' == 'true' and $([MSBuild]::IsOSPlatform('macOS'))">$(DotnetDefaultPathMacOS)</DotnetDestDir>
     <DotnetExe>$(DotnetDestDir)dotnet</DotnetExe>
     <DotnetExe Condition="'$(CI)' == 'true'">dotnet</DotnetExe>
-    <DotnetManifestsDestDir>$(DotnetDestDir)sdk-manifests/$(DotnetVersion)/net.sdk.skia/</DotnetManifestsDestDir>
+    <DotnetManifestsDestDir>$(DotnetDestDir)sdk-manifests/$(DotnetVersion)/skia.sdk.manifest/</DotnetManifestsDestDir>
   </PropertyGroup>
 
   <Target Name="BuildPackages">

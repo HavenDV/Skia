@@ -156,7 +156,7 @@ function Install-SkiaWorkload([string]$DotnetVersion, [string]$Source)
 
     # Check workload manifest directory.
     $ManifestDir = Join-Path -Path $DotnetInstallDir -ChildPath "sdk-manifests" | Join-Path -ChildPath $DotnetTargetVersionBand
-    $SkiaManifestDir = Join-Path -Path $ManifestDir -ChildPath "net.sdk.skia"
+    $SkiaManifestDir = Join-Path -Path $ManifestDir -ChildPath "skia.sdk.manifest"
     $SkiaManifestFile = Join-Path -Path $SkiaManifestDir -ChildPath "WorkloadManifest.json"
 
     # Check and remove already installed old version.
