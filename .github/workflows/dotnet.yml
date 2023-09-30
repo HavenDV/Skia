@@ -10,9 +10,9 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest]
         dotnet-version: [
-          #6.0.x, # Invalid numeric identifier: 'x'.
-          7.0.x,
-          8.0.x
+          6.0.414,
+          7.0.401,
+          8.0.100-rc.1
         ]
     name: ${{ matrix.os }}/${{ matrix.dotnet-version }}
     runs-on: ${{ matrix.os }}
@@ -38,9 +38,9 @@ jobs:
     strategy:
       matrix:
         dotnet-version: [
-          6.0.x,
-          7.0.x,
-          8.0.x
+          6.0.414,
+          7.0.401,
+          8.0.100-rc.1
         ]
     name: windows-latest/${{ matrix.dotnet-version }}
     runs-on: windows-latest
