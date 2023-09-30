@@ -24,6 +24,7 @@
     <DotnetDestDir Condition="'$(UseCurrentDotnet)' == 'true' and $([MSBuild]::IsOSPlatform('Linux'))">$(DotnetDefaultPathLinux)</DotnetDestDir>
     <DotnetDestDir Condition="'$(UseCurrentDotnet)' == 'true' and $([MSBuild]::IsOSPlatform('macOS'))">$(DotnetDefaultPathMacOS)</DotnetDestDir>
     <DotnetExe>$(DotnetDestDir)dotnet</DotnetExe>
+    <DotnetExe Condition="'$(ContinuousIntegrationBuild)' == 'true'">dotnet</DotnetExe>
     <DotnetManifestsDestDir>$(DotnetDestDir)sdk-manifests/$(DotnetVersion)/net.sdk.skia/</DotnetManifestsDestDir>
   </PropertyGroup>
 
