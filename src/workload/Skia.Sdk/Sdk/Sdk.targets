@@ -1,5 +1,5 @@
 <Project>
 
-  <Import Project="$(MSBuildThisFileDirectory)..\targets\Skia.Sdk.targets"  />
+  <Import Project="$(MSBuildThisFileDirectory)Skia.Sdk.targets"  />
 
 </Project>

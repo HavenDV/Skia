@@ -1,0 +1,8 @@
+<Project>
+
+  <PropertyGroup>
+    <_IsSkiaDefined>$([System.Text.RegularExpressions.Regex]::IsMatch('$(DefineConstants.Trim())', '(^|;)__SKIA__($|;)'))</_IsSkiaDefined>
+    <DefineConstants Condition="!$(_IsSkiaDefined)">__SKIA__;$(DefineConstants)</DefineConstants>
+  </PropertyGroup>
+
+</Project>

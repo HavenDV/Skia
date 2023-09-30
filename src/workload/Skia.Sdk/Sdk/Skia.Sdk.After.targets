@@ -1,0 +1,10 @@
+<Project>
+
+  <PropertyGroup>
+    <EnableDefaultSkiaItems Condition="'$(EnableDefaultSkiaItems)' == ''">$(EnableDefaultItems)</EnableDefaultSkiaItems>
+  </PropertyGroup>
+
+  <Import Project="Skia.Sdk.Common.targets" />
+  <Import Project="Skia.Sdk.NuGet.targets" Condition=" '$(MSBuildRuntimeType)' == 'Full' and '$(MSBuildVersion)' &lt; '17.0' " />
+
+</Project>

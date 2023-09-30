@@ -1,0 +1,10 @@
+<Project>
+
+	<PropertyGroup>
+		<AfterMicrosoftNETSdkTargets>$(AfterMicrosoftNETSdkTargets);$(MSBuildThisFileDirectory)Skia.Sdk.After.targets</AfterMicrosoftNETSdkTargets>
+	</PropertyGroup>
+
+  <Import Project="Skia.Sdk.Versions.targets" />
+  <Import Project="Skia.Sdk.DefaultProperties.targets" />
+
+</Project>
