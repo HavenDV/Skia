@@ -10,7 +10,7 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-latest]
         dotnet-version: [
-          6.0.x,
+          #6.0.x, # Invalid numeric identifier: 'x'.
           7.0.x,
           8.0.x
         ]
