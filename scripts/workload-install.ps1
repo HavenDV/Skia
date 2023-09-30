@@ -72,7 +72,7 @@ function Get-Package([string]$Id, [string]$Version, [string]$Destination, [strin
     $OutFileName = "$Id.$Version.$FileExt"
     $OutFilePath = Join-Path -Path $Destination -ChildPath $OutFileName
     
-    if ($Source -eq "") {
+    if ($Source -eq "<auto>") {
         Invoke-WebRequest -Uri "https://www.nuget.org/api/v2/package/$Id/$Version" -OutFile $OutFilePath
     }
     else {
