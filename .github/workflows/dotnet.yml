@@ -34,6 +34,8 @@ jobs:
         ]
     name: ${{ matrix.os }}/${{ matrix.dotnet-version }}
     runs-on: ${{ matrix.os }}
+    env:
+      CI: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v3
@@ -72,6 +74,8 @@ jobs:
         ]
     name: windows-latest/${{ matrix.dotnet-version }}
     runs-on: windows-latest
+    env:
+      CI: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v3
