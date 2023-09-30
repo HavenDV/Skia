@@ -49,7 +49,7 @@ jobs:
         run: curl -sSL https://raw.githubusercontent.com/${{ github.repository }}/main/scripts/workload-install.sh | sudo bash
         
       - name: "Create new project from template"
-        run: dotnet new ${{ github.template }} --output test
+        run: dotnet new ${{ matrix.template }} --output test
         
       - name: "Build new project using dotnet"
         run: dotnet build test
@@ -60,7 +60,7 @@ jobs:
         
       - name: "Create new project from template to test MSBuild"
         if: matrix.os == 'windows'
-        run: dotnet new ${{ github.template }} --output test-msbuild
+        run: dotnet new ${{ matrix.template }} --output test-msbuild
         
       - name: "Build new project using MSBuild"
         if: matrix.os == 'windows'
