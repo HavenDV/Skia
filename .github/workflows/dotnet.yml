@@ -34,14 +34,18 @@ jobs:
         ]
     name: ${{ matrix.os }}/${{ matrix.dotnet-version }}
     runs-on: ${{ matrix.os }}
-    env:
-      CI: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - run: dotnet build
+      - run: cp
+          src/workload/Skia.Sdk.Manifest/WorkloadManifest.targets 
+          $DOTNET_ROOT/sdk-manifests/${{ matrix.dotnet-version }}/skia.sdk.manifest/WorkloadManifest.targets
+      - run: cp
+          out/nuget-unsigned/workload-manifest/WorkloadManifest.json
+          $DOTNET_ROOT/sdk-manifests/${{ matrix.dotnet-version }}/skia.sdk.manifest/WorkloadManifest.json
       - run: dotnet workload install skia --skip-manifest-update --source out/nuget-unsigned
       - run: dotnet new skia --output test
       - run: dotnet build test
@@ -74,14 +78,18 @@ jobs:
         ]
     name: windows-latest/${{ matrix.dotnet-version }}
     runs-on: windows-latest
-    env:
-      CI: true
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - run: dotnet build
+      - run: cp
+          src/workload/Skia.Sdk.Manifest/WorkloadManifest.targets
+          $DOTNET_ROOT/sdk-manifests/${{ matrix.dotnet-version }}/skia.sdk.manifest/WorkloadManifest.targets
+      - run: cp
+          out/nuget-unsigned/workload-manifest/WorkloadManifest.json
+          $DOTNET_ROOT/sdk-manifests/${{ matrix.dotnet-version }}/skia.sdk.manifest/WorkloadManifest.json
       - run: dotnet workload install skia --skip-manifest-update --source out/nuget-unsigned
       - run: dotnet new skia --output test
       - run: dotnet build test
