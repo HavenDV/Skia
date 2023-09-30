@@ -40,7 +40,7 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - run: dotnet build
-      - run: mkdir $DOTNET_ROOT/sdk-manifests/${{ matrix.dotnet-version }}/skia.sdk.manifest
+      - run: mkdir -p $DOTNET_ROOT/sdk-manifests/${{ matrix.dotnet-version }}/skia.sdk.manifest
       - run: cp
           src/workload/Skia.Sdk.Manifest/WorkloadManifest.targets 
           $DOTNET_ROOT/sdk-manifests/${{ matrix.dotnet-version }}/skia.sdk.manifest/WorkloadManifest.targets
@@ -85,7 +85,7 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - run: dotnet build
-      - run: mkdir $DOTNET_ROOT/sdk-manifests/${{ matrix.dotnet-version }}/skia.sdk.manifest
+      - run: mkdir -p $DOTNET_ROOT/sdk-manifests/${{ matrix.dotnet-version }}/skia.sdk.manifest
       - run: cp
           src/workload/Skia.Sdk.Manifest/WorkloadManifest.targets
           $DOTNET_ROOT/sdk-manifests/${{ matrix.dotnet-version }}/skia.sdk.manifest/WorkloadManifest.targets
