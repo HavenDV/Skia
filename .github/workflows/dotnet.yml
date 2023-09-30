@@ -42,9 +42,9 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - run: dotnet build
-      - run: sudo dotnet build
-          src/tasks/Tasks
-          /t:TestWorkload
+      - run: dotnet workload install skia --skip-manifest-update --source out/nuget-unsigned
+      - run: dotnet new skia --output test
+      - run: dotnet build test
       
   build-test-windows:
     strategy:
@@ -82,9 +82,9 @@ jobs:
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
       - run: dotnet build
-      - run: dotnet build
-          src/tasks/Tasks
-          /t:TestWorkload
+      - run: dotnet workload install skia --skip-manifest-update --source out/nuget-unsigned
+      - run: dotnet new skia --output test
+      - run: dotnet build test
       
   build-test-publish:
     name: Build, test and publish
