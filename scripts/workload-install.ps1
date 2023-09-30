@@ -68,15 +68,22 @@ function Get-LatestVersion([string]$Id) {
     Write-Error "Wrong Id: $Id"
 }
 
-function Get-Package([string]$Id, [string]$Version, [string]$Destination, [string]$FileExt = "nupkg") {
+function Get-Package([string]$Id, [string]$Version, [string]$Destination, [string]$Source = "", [string]$FileExt = "nupkg") {
     $OutFileName = "$Id.$Version.$FileExt"
     $OutFilePath = Join-Path -Path $Destination -ChildPath $OutFileName
-    Invoke-WebRequest -Uri "https://www.nuget.org/api/v2/package/$Id/$Version" -OutFile $OutFilePath
+    
+    if ($Source -eq "") {
+        Invoke-WebRequest -Uri "https://www.nuget.org/api/v2/package/$Id/$Version" -OutFile $OutFilePath
+    }
+    else {
+        Copy-Item "$Source/$Id.*.nupkg" -Destination $OutFilePath
+    }
+    
     return $OutFilePath
 }
 
-function Install-Pack([string]$Id, [string]$Version, [string]$Kind) {
-    $TempZipFile = $(Get-Package -Id $Id -Version $Version -Destination $TempDir -FileExt "zip")
+function Install-Pack([string]$Id, [string]$Version, [string]$Kind, [string]$Source) {
+    $TempZipFile = $(Get-Package -Id $Id -Version $Version -Destination $TempDir -Source $Source -FileExt "zip")
     $TempUnzipDir = Join-Path -Path $TempDir -ChildPath "unzipped\$Id"
 
     switch ($Kind) {
@@ -116,7 +123,7 @@ function Remove-Pack([string]$Id, [string]$Version, [string]$Kind) {
     }
 }
 
-function Install-SkiaWorkload([string]$DotnetVersion)
+function Install-SkiaWorkload([string]$DotnetVersion, [string]$Source)
 {
     $VersionSplitSymbol = '.'
     $SplitVersion = $DotnetVersion.Split($VersionSplitSymbol)
@@ -125,14 +132,6 @@ function Install-SkiaWorkload([string]$DotnetVersion)
     $DotnetVersionBand = $SplitVersion[0] + $VersionSplitSymbol + $SplitVersion[1] + $VersionSplitSymbol + $SplitVersion[2][0] + "00"
     $ManifestName = "$ManifestBaseName"
 
-    if ($Source -eq "<auto>") {
-        $SourceName = "NuGet"
-    }
-    else {
-        Register-PackageSource -Name Local -Location $Source -ProviderName NuGet
-        $SourceName = "Local"
-    }
-    
     if ($DotnetTargetVersionBand -eq "<auto>" -or $UpdateAllWorkloads.IsPresent) {
         if ($CurrentDotnetVersion -ge "7.0")
         {
@@ -187,13 +186,13 @@ function Install-SkiaWorkload([string]$DotnetVersion)
 
     # Install workload manifest.
     Write-Host "Installing $ManifestName/$Version to $ManifestDir..."
-    Install-Pack -Id $ManifestName -Version $Version -Kind "manifest" -Source $SourceName
+    Install-Pack -Id $ManifestName -Version $Version -Kind "manifest" -Source $Source
 
     # Download and install workload packs.
     $NewManifestJson = $(Get-Content $SkiaManifestFile | ConvertFrom-Json)
     $NewManifestJson.packs.PSObject.Properties | ForEach-Object {
         Write-Host "Installing $($_.Name)/$($_.Value.version)..."
-        Install-Pack -Id $_.Name -Version $_.Value.version -Kind $_.Value.kind
+        Install-Pack -Id $_.Name -Version $_.Value.version -Kind $_.Value.kind -Source $Source
     }
 
     # Add skia to the installed workload metadata.
@@ -250,7 +249,7 @@ else
     {
         try {
             Write-Host "`nCheck Skia Workload for sdk $DotnetSdk"
-            Install-SkiaWorkload -DotnetVersion $DotnetSdk
+            Install-SkiaWorkload -DotnetVersion $DotnetSdk -Source $Source
         }
         catch {
             Write-Host "Failed to install Skia Workload for sdk $DotnetSdk"
