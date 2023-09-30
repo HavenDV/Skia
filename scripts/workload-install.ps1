@@ -76,7 +76,7 @@ function Get-Package([string]$Id, [string]$Version, [string]$Destination, [strin
         Invoke-WebRequest -Uri "https://www.nuget.org/api/v2/package/$Id/$Version" -OutFile $OutFilePath
     }
     else {
-        Copy-Item "$Source/$Id.0.1.0.nupkg" -Destination $OutFilePath
+        Copy-Item "$Source/$Id.$Version.nupkg" -Destination $OutFilePath
     }
     
     return $OutFilePath
@@ -154,6 +154,9 @@ function Install-SkiaWorkload([string]$DotnetVersion, [string]$Source)
         if ($Version -eq "<latest>" -or $UpdateAllWorkloads.IsPresent) {
             $Version = Get-LatestVersion -Id $ManifestName
         }
+    }
+    else {
+        $Version = "0.1.0"
     }
 
     # Check workload manifest directory.

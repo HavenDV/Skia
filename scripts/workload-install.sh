@@ -160,7 +160,7 @@ function install_skiaworkload() {
     if [[ "$SOURCE" == "<auto>" ]]; then
       curl -s -o $TMPDIR/manifest.zip -L https://www.nuget.org/api/v2/package/$MANIFEST_NAME/$MANIFEST_VERSION
     else
-      cp -f $SOURCE/$MANIFEST_NAME.0.1.0.nupkg $TMPDIR/manifest.zip
+      cp -f $SOURCE/$MANIFEST_NAME.$MANIFEST_VERSION.nupkg $TMPDIR/manifest.zip
     fi
 
     unzip -qq -d $TMPDIR/unzipped $TMPDIR/manifest.zip
