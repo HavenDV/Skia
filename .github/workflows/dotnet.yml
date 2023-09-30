@@ -8,78 +8,56 @@ jobs:
   build-test-non-windows:
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest]
-        dotnet-version: [6.0.x, 7.0.x, 8.0.x]
-        dotnet-quality: [preview, ga]
-        source: [nuget, local]
-    name: ${{ matrix.os }}/${{ matrix.dotnet-version }}/${{ matrix.source }}
-    runs-on: ${{ matrix.os }}
+        os: [macos, ubuntu, windows]
+        dotnet-version: [6.0.x] #, 7.0.x, 8.0.x
+        dotnet-quality: [ga] #preview, 
+        source: [local] #nuget, 
+        build: ["dotnet build"]
+        include:
+          - os: windows
+            build: "msbuild /restore"
+    name: ${{ matrix.os }}/${{ matrix.dotnet-version }}-${{ matrix.dotnet-quality }}/${{ matrix.source }}/${{ matrix.build }}
+    runs-on: ${{ matrix.os }}-latest
     steps:
-      - if: matrix.source == 'local'
+      - name: "Checkout"
+        if: matrix.source == 'local'
         uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v3
+
+      - name: "Setup dotnet"
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
           dotnet-quality: ${{ matrix.dotnet-quality }}
-      - if: matrix.source == 'local'
+          
+      - name: "Setup MSBuild"
+        if: startsWith(matrix.build, 'msbuild')
+        uses: microsoft/setup-msbuild@v1.1
+          
+      - name: "Build local packages"
+        if: matrix.source == 'local'
         run: dotnet build
-      - if: matrix.source == 'local'
+         
+      - name: "Download workload-install on Windows"
+        if: matrix.os == 'windows'
+        run: Invoke-WebRequest 'https://raw.githubusercontent.com/HavenDV/Skia/main/scripts/workload-install.ps1' -OutFile 'workload-install.ps1'
+      - name: "Install workload from local packages on Windows"
+        if: matrix.source == 'local' && matrix.os == 'windows'
+        run: ./workload-install.ps1 -s out/nuget-unsigned
+      - name: "Install workload from NuGet on Windows"
+        if: matrix.source == 'nuget' && matrix.os == 'windows'
+        run: ./workload-install.ps1
+        
+      - name: "Install workload from local packages on Linux/macOS"
+        if: matrix.source == 'local'' && matrix.os != 'windows'
         run: curl -sSL https://raw.githubusercontent.com/HavenDV/Skia/main/scripts/workload-install.sh | bash -s -- -s out/nuget-unsigned
-      - if: matrix.source == 'nuget'
+      - name: "Install workload from NuGet on Linux/macOS"
+        if: matrix.source == 'nuget'' && matrix.os != 'windows'
         run: curl -sSL https://raw.githubusercontent.com/HavenDV/Skia/main/scripts/workload-install.sh | sudo bash
-      - run: dotnet new skia --output test
-      - run: dotnet build test
-      
-  build-test-windows:
-    strategy:
-      matrix:
-        dotnet-version: [6.0.x, 7.0.x, 8.0.x]
-        dotnet-quality: [preview, ga]
-        source: [nuget, local]
-    name: windows-latest/${{ matrix.dotnet-version }}/${{ matrix.source }}
-    runs-on: windows-latest
-    steps:
-      - if: matrix.source == 'local'
-        uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: ${{ matrix.dotnet-version }}
-          dotnet-quality: ${{ matrix.dotnet-quality }}
-      - if: matrix.source == 'local'
-        run: dotnet build
-      - run: Invoke-WebRequest 'https://raw.githubusercontent.com/HavenDV/Skia/main/scripts/workload-install.ps1' -OutFile 'workload-install.ps1'
-      - if: matrix.source == 'local'
-        run: ./workload-install.ps1 -s out/nuget-unsigned
-      - if: matrix.source == 'nuget'
-        run: ./workload-install.ps1
-      - run: dotnet new skia --output test
-      - run: dotnet build test
-  
-  build-test-msbuild:
-    strategy:
-      matrix:
-        vs-prerelease: [true, false]
-        source: [nuget, local]
-    name: msbuild/preview-${{ matrix.vs-prerelease }}/${{ matrix.source }}
-    runs-on: windows-latest
-    steps:
-      - if: matrix.source == 'local'
-        uses: actions/checkout@v4
-      - uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: ${{ matrix.dotnet-version }}
-      - uses: microsoft/setup-msbuild@v1.1
-        with:
-          vs-prerelease: ${{ matrix.vs-prerelease }}
-      - if: matrix.source == 'local'
-        run: dotnet build
-      - run: Invoke-WebRequest 'https://raw.githubusercontent.com/HavenDV/Skia/main/scripts/workload-install.ps1' -OutFile 'workload-install.ps1'
-      - if: matrix.source == 'local'
-        run: ./workload-install.ps1 -s out/nuget-unsigned
-      - if: matrix.source == 'nuget'
-        run: ./workload-install.ps1
-      - run: dotnet new skia --output test
-      - run: msbuild test /restore
+        
+      - name: "Create new project from skia template"
+        run: dotnet new skia --output test
+      - name: "Build new project using ${{ matrix.build }}"
+        run: ${{ matrix.build }} test
       
   build-test-publish:
     name: Build, test and publish
