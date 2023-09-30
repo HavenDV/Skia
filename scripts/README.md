@@ -21,9 +21,9 @@ workload-install.ps1 [-v <Version>] [-d <Dotnet SDK Location>] [-t <Dotnet Versi
 
 If this script is executed in CI environment, you can use `curl` to download the script and execute it.
 ```
-curl -sSL https://raw.githubusercontent.com/HavenDV/Skia/main/workload/scripts/workload-install.sh | bash
+curl -sSL https://raw.githubusercontent.com/HavenDV/Skia/main/scripts/workload-install.sh | bash
 ```
 or
 ```
-curl -sSL https://raw.githubusercontent.com/HavenDV/Skia/main/workload/scripts/workload-install.sh | bash -s -- -v <version> -d <dotnet sdk location>
+curl -sSL https://raw.githubusercontent.com/HavenDV/Skia/main/scripts/workload-install.sh | bash -s -- -v <version> -d <dotnet sdk location>
 ```

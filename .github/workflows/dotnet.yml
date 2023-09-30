@@ -93,7 +93,7 @@ jobs:
 #          out/nuget-unsigned/workload-manifest/WorkloadManifest.json
 #          $env:DOTNET_ROOT/sdk-manifests/${{ matrix.dotnet-version }}/skia.sdk.manifest/WorkloadManifest.json
 #      - run: dotnet workload install skia --skip-manifest-update --source out/nuget-unsigned
-      - run: Invoke-WebRequest 'https://raw.githubusercontent.com/HavenDV/Skia/main/workload/scripts/workload-install.ps1' -OutFile 'workload-install.ps1'
+      - run: Invoke-WebRequest 'https://raw.githubusercontent.com/HavenDV/Skia/main/scripts/workload-install.ps1' -OutFile 'workload-install.ps1'
       - run: ./workload-install.ps1 -s out/nuget-unsigned
       - run: dotnet new skia --output test
       - run: dotnet build test

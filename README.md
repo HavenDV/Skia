@@ -12,11 +12,11 @@ curl -sSL https://raw.githubusercontent.com/HavenDV/Skia/main/scripts/workload-i
 ```
 if you want to install a specific version of Skia workload or install to a specific directory, use the following command:
 ```
-curl -sSL https://raw.githubusercontent.com/HavenDV/Skia/main/workload/scripts/workload-install.sh | bash /dev/stdin -v <version> -d <directory>
+curl -sSL https://raw.githubusercontent.com/HavenDV/Skia/main/scripts/workload-install.sh | bash /dev/stdin -v <version> -d <directory>
 ```
 - On Windows:
 ```
-Invoke-WebRequest 'https://raw.githubusercontent.com/HavenDV/Skia/main/workload/scripts/workload-install.ps1' -OutFile 'workload-install.ps1';
+Invoke-WebRequest 'https://raw.githubusercontent.com/HavenDV/Skia/main/scripts/workload-install.ps1' -OutFile 'workload-install.ps1';
 ./workload-install.ps1 [-v <version>] [-d <directory>]
 ```
 You can see the Skia workload as follows if it is properly installed.
