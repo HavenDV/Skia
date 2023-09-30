@@ -9,11 +9,8 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-latest]
-        dotnet-version: [
-          6.0.414,
-          7.0.401,
-          #8.0.100-rc.1
-        ]
+        dotnet-version: [6.0.x, 7.0.x, 8.0.x]
+        dotnet-quality: [preview, ga]
         source: [nuget, local]
     name: ${{ matrix.os }}/${{ matrix.dotnet-version }}/${{ matrix.source }}
     runs-on: ${{ matrix.os }}
@@ -23,6 +20,7 @@ jobs:
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-quality: ${{ matrix.dotnet-quality }}
       - if: matrix.source == 'local'
         run: dotnet build
       - if: matrix.source == 'local'
@@ -35,11 +33,8 @@ jobs:
   build-test-windows:
     strategy:
       matrix:
-        dotnet-version: [
-          6.0.414,
-          7.0.401,
-          #8.0.100-rc.1
-        ]
+        dotnet-version: [6.0.x, 7.0.x, 8.0.x]
+        dotnet-quality: [preview, ga]
         source: [nuget, local]
     name: windows-latest/${{ matrix.dotnet-version }}/${{ matrix.source }}
     runs-on: windows-latest
@@ -49,6 +44,7 @@ jobs:
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-quality: ${{ matrix.dotnet-quality }}
       - if: matrix.source == 'local'
         run: dotnet build
       - run: Invoke-WebRequest 'https://raw.githubusercontent.com/HavenDV/Skia/main/scripts/workload-install.ps1' -OutFile 'workload-install.ps1'
