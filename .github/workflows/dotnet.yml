@@ -83,7 +83,7 @@ jobs:
       - if: matrix.source == 'nuget'
         run: ./workload-install.ps1
       - run: dotnet new skia --output test
-      - run: msbuild test
+      - run: msbuild test /restore
       
   build-test-publish:
     name: Build, test and publish
