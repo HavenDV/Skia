@@ -5,7 +5,7 @@
 
 #!/bin/bash -e
 
-MANIFEST_BASE_NAME="skia.sdk.manifest"
+MANIFEST_BASE_NAME="Skia.Sdk.Manifest"
 MANIFEST_VERSION="<latest>"
 SOURCE="<auto>"
 DOTNET_INSTALL_DIR="<auto>"
