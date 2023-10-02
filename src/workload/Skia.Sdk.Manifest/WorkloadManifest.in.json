@@ -1,11 +1,48 @@
 {
   "version": "@SKIA_WORKLOAD_VERSION@",
   "workloads": {
-    "skia": {
-      "description": ".NET SDK Workload for building Skia applications.",
+    "skia-core": {
+      "abstract": true,
+      "description": ".NET Skia SDK Core Packages",
       "packs": [
         "Skia.Sdk",
         "Skia.Templates"
+      ]
+    },
+    "skia": {
+      "description": ".NET SDK Workload for building Skia applications.",
+      "extends": [
+        "skia-core"
+      ]
+    },
+    "skia-wpf": {
+      "description": ".NET SDK Workload for building Skia applications using WPF.",
+      "extends": [
+        "skia-core"
+      ]
+    },
+    "skia-linux-framebuffer": {
+      "description": ".NET SDK Workload for building Skia applications using Linux Framebuffer.",
+      "extends": [
+        "skia-core"
+      ]
+    },
+    "skia-linux": {
+      "description": ".NET SDK Workload for building Skia applications using Linux Framebuffer.",
+      "extends": [
+        "skia-linux-framebuffer"
+      ]
+    },
+    "skia-tizen": {
+      "description": ".NET SDK Workload for building Skia applications using Tizen.",
+      "extends": [
+        "skia-core"
+      ]
+    },
+    "skia-gtk": {
+      "description": ".NET SDK Workload for building Skia applications using GTK.",
+      "extends": [
+        "skia-core"
       ]
     }
   },

@@ -7,12 +7,17 @@
   <PropertyGroup>
     <TargetPlatformSupported>true</TargetPlatformSupported>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">$(_DefaultTargetPlatformVersion)</TargetPlatformVersion>
-    <_TargetFramework Condition="$(TargetFramework.EndsWith('skia'))">$(TargetFramework)$(_DefaultTargetPlatformVersion)</_TargetFramework>
-    <_TargetFramework Condition="!$(TargetFramework.EndsWith('skia'))">$(TargetFramework)</_TargetFramework>
+    <_TargetFramework Condition="$(TargetFramework.EndsWith('skia')) or $(TargetFramework.EndsWith('skia-wpf')) or $(TargetFramework.EndsWith('skia-linux')) or $(TargetFramework.EndsWith('skia-linux-framebuffer')) or $(TargetFramework.EndsWith('skia-tizen')) or $(TargetFramework.EndsWith('skia-gtk'))">$(TargetFramework)$(_DefaultTargetPlatformVersion)</_TargetFramework>
+    <_TargetFramework Condition="!$(TargetFramework.EndsWith('skia')) and !$(TargetFramework.EndsWith('skia-wpf')) and !$(TargetFramework.EndsWith('skia-linux')) and !$(TargetFramework.EndsWith('skia-linux-framebuffer')) and !$(TargetFramework.EndsWith('skia-tizen')) and !$(TargetFramework.EndsWith('skia-gtk'))">$(TargetFramework)</_TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <SupportedPlatform Include="skia" />
+    <SupportedPlatform Include="skia-wpf" />
+    <SupportedPlatform Include="skia-linux" />
+    <SupportedPlatform Include="skia-linux-framebuffer" />
+    <SupportedPlatform Include="skia-tizen" />
+    <SupportedPlatform Include="skia-gtk" />
   </ItemGroup>
 
   <ItemGroup>
