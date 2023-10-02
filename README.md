@@ -1,4 +1,9 @@
 # Skia
+
+[![dotnet](https://github.com/HavenDV/Uno.Sdk/actions/workflows/dotnet.yml/badge.svg?branch=main)](https://github.com/HavenDV/Uno.Sdk/actions/workflows/dotnet.yml)
+[![License: MIT](https://img.shields.io/github/license/HavenDV/Uno.Sdk)](https://github.com/HavenDV/Uno.Sdk/blob/main/LICENSE.txt)
+[![Discord](https://img.shields.io/discord/1115206893015662663?label=Discord&logo=discord&logoColor=white&color=d82679)](https://discord.gg/Ca2xhfBf3v)
+
 <b>Skia</b> is separate TPM for developing Skia applications within a single project, if there are other TargetFrameworks using the main `net7.0` TPM.
 
 ## Usage
@@ -52,6 +57,11 @@ You can override these properties:
 /p:UseCurrentDotnet=true - Will install workload to current dotnet instead downloaded.
 ```
 
+### Disclaimer
+Although this is a working solution, I have simplified some things regarding workload and manifest, 
+which could theoretically cause problems (for example, when upgrading to a new sdk version).  
+I'll be glad to hear about it in issues.
+
 ### Docs
 Official documentation regarding the design of Workloads and Sdks:
 - https://github.com/dotnet/sdk/tree/main/documentation/general/workloads
@@ -61,3 +71,8 @@ Official documentation regarding the design of Workloads and Sdks:
 - https://github.com/dotnet/designs/blob/main/accepted/2021/workloads/workload-installation.md
 - MAUI Workload - https://github.com/dotnet/maui/tree/main/src/Workload
 - Tizen Workload - https://github.com/Samsung/Tizen.NET/tree/main/workload
+
+### Support
+Priority place for bugs: https://github.com/HavenDV/Skia/issues  
+Priority place for ideas and general questions: https://github.com/HavenDV/Skia/discussions  
+Discord: https://discord.gg/g8u2t9dKgE  
